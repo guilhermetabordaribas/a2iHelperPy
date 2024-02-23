@@ -1,0 +1,54 @@
+#!/bin/bash
+
+#BSUB -J SalPrPoS
+#BSUB -o output/test-%J.out
+#BSUB -e output/test-%J.err
+#BSUB -q normal
+#BSUB -n 8
+#BSUB -R rusage[mem=16384]
+
+# Some important variables to check (Can be removed later)
+echo '---PROCESS RESOURCE LIMITS---'
+ulimit -a
+echo '---SHARED LIBRARY PATH---'
+echo $LD_LIBRARY_PATH
+echo '---APPLICATION SEARCH PATH:---'
+echo $PATH
+echo '---LSF Parameters:---'
+printenv | grep '^LSF'
+echo '---LSB Parameters:---'
+printenv | grep '^LSB'
+echo '---LOADED MODULES:---'
+module list
+echo '---SHELL:---'
+echo $SHELL
+echo '---HOSTNAME:---'
+hostname
+echo '---GROUP MEMBERSHIP (files are created in the first group listed):---'
+groups
+echo '---DEFAULT FILE PERMISSIONS (UMASK):---'
+umask
+echo '---CURRENT WORKING DIRECTORY:---'
+pwd
+echo '---DISK SPACE QUOTA---'
+df .
+echo '---TEMPORARY SCRATCH FOLDER ($TMPDIR):---'
+echo $TMPDIR
+
+# Add your job command here
+
+#module load Miniconda3/4.4.10 #Anaconda3/5.2.0
+#module load miniconda3/latest
+#conda activate BioInfoEnv
+#conda info --envs
+module load salmon/1.9.0
+
+file=$(cat ./SRR_Acc_List_SINGLE.txt)
+in_file="/data/guilherme/posttransplant_PRJNA542833_GSE131179/single_end/trimmed_reads/"
+out_file="/data/guilherme/posttransplant_PRJNA542833_GSE131179/single_end/trimmed_salmon_quant/"
+index_path="/data/guilherme/reference/salmon/release44_GRCh38.p14/release44_GRCh38.p14_salmon_gencode.idx/"
+
+for line in $file
+do
+    salmon quant -i ${index_path} -l A -r ${in_file}${line}.trimmed.fastq -p 8 --validateMappings -o ${out_file}${line}
+done

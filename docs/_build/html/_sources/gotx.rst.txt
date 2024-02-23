@@ -1,0 +1,61 @@
+gotx package
+============
+
+Submodules
+----------
+
+gotx.call\_reditools module
+---------------------------
+
+.. automodule:: gotx.call_reditools
+   :members:
+   :undoc-members:
+   :show-inheritance:
+
+gotx.correction module
+----------------------
+
+.. automodule:: gotx.correction
+   :members:
+   :undoc-members:
+   :show-inheritance:
+
+gotx.editing module
+-------------------
+
+.. automodule:: gotx.editing
+   :members:
+   :undoc-members:
+   :show-inheritance:
+
+gotx.feat\_selection module
+---------------------------
+
+.. automodule:: gotx.feat_selection
+   :members:
+   :undoc-members:
+   :show-inheritance:
+
+gotx.plot module
+----------------
+
+.. automodule:: gotx.plot
+   :members:
+   :undoc-members:
+   :show-inheritance:
+
+gotx.read module
+----------------
+
+.. automodule:: gotx.read
+   :members:
+   :undoc-members:
+   :show-inheritance:
+
+Module contents
+---------------
+
+.. automodule:: gotx
+   :members:
+   :undoc-members:
+   :show-inheritance:

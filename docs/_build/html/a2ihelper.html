@@ -1,0 +1,405 @@
+<!DOCTYPE html>
+<html class="writer-html5" lang="en">
+<head>
+  <meta charset="utf-8" /><meta name="generator" content="Docutils 0.19: https://docutils.sourceforge.io/" />
+
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>a2ihelper package &mdash; a2iHelperPy 0.0.1 documentation</title>
+      <link rel="stylesheet" type="text/css" href="_static/pygments.css" />
+      <link rel="stylesheet" type="text/css" href="_static/css/theme.css" />
+
+  
+  <!--[if lt IE 9]>
+    <script src="_static/js/html5shiv.min.js"></script>
+  <![endif]-->
+  
+        <script data-url_root="./" id="documentation_options" src="_static/documentation_options.js"></script>
+        <script src="_static/jquery.js"></script>
+        <script src="_static/underscore.js"></script>
+        <script src="_static/_sphinx_javascript_frameworks_compat.js"></script>
+        <script src="_static/doctools.js"></script>
+        <script src="_static/sphinx_highlight.js"></script>
+    <script src="_static/js/theme.js"></script>
+    <link rel="index" title="Index" href="genindex.html" />
+    <link rel="search" title="Search" href="search.html" />
+    <link rel="prev" title="a2ihelper" href="modules.html" /> 
+</head>
+
+<body class="wy-body-for-nav"> 
+  <div class="wy-grid-for-nav">
+    <nav data-toggle="wy-nav-shift" class="wy-nav-side">
+      <div class="wy-side-scroll">
+        <div class="wy-side-nav-search" >
+
+          
+          
+          <a href="index.html" class="icon icon-home">
+            a2iHelperPy
+          </a>
+<div role="search">
+  <form id="rtd-search-form" class="wy-form" action="search.html" method="get">
+    <input type="text" name="q" placeholder="Search docs" aria-label="Search docs" />
+    <input type="hidden" name="check_keywords" value="yes" />
+    <input type="hidden" name="area" value="default" />
+  </form>
+</div>
+        </div><div class="wy-menu wy-menu-vertical" data-spy="affix" role="navigation" aria-label="Navigation menu">
+              <p class="caption" role="heading"><span class="caption-text">Contents:</span></p>
+<ul class="current">
+<li class="toctree-l1 current"><a class="reference internal" href="modules.html">a2ihelper</a><ul class="current">
+<li class="toctree-l2 current"><a class="current reference internal" href="#">a2ihelper package</a><ul>
+<li class="toctree-l3"><a class="reference internal" href="#submodules">Submodules</a></li>
+<li class="toctree-l3"><a class="reference internal" href="#module-a2ihelper.call_reditools">a2ihelper.call_reditools module</a><ul>
+<li class="toctree-l4"><a class="reference internal" href="#a2ihelper.call_reditools.get_genes_positions"><code class="docutils literal notranslate"><span class="pre">get_genes_positions()</span></code></a></li>
+<li class="toctree-l4"><a class="reference internal" href="#a2ihelper.call_reditools.indexing_ref"><code class="docutils literal notranslate"><span class="pre">indexing_ref()</span></code></a></li>
+<li class="toctree-l4"><a class="reference internal" href="#a2ihelper.call_reditools.run_per_gene_position"><code class="docutils literal notranslate"><span class="pre">run_per_gene_position()</span></code></a></li>
+<li class="toctree-l4"><a class="reference internal" href="#a2ihelper.call_reditools.run_per_gene_position_list"><code class="docutils literal notranslate"><span class="pre">run_per_gene_position_list()</span></code></a></li>
+</ul>
+</li>
+<li class="toctree-l3"><a class="reference internal" href="#module-a2ihelper.correction">a2ihelper.correction module</a><ul>
+<li class="toctree-l4"><a class="reference internal" href="#a2ihelper.correction.SCALE_FACTOR"><code class="docutils literal notranslate"><span class="pre">SCALE_FACTOR</span></code></a></li>
+<li class="toctree-l4"><a class="reference internal" href="#a2ihelper.correction.TPM"><code class="docutils literal notranslate"><span class="pre">TPM</span></code></a></li>
+</ul>
+</li>
+<li class="toctree-l3"><a class="reference internal" href="#module-a2ihelper.editing">a2ihelper.editing module</a><ul>
+<li class="toctree-l4"><a class="reference internal" href="#a2ihelper.editing.anova_tukey"><code class="docutils literal notranslate"><span class="pre">anova_tukey()</span></code></a></li>
+<li class="toctree-l4"><a class="reference internal" href="#a2ihelper.editing.filter_gtest"><code class="docutils literal notranslate"><span class="pre">filter_gtest()</span></code></a></li>
+<li class="toctree-l4"><a class="reference internal" href="#a2ihelper.editing.filter_positions"><code class="docutils literal notranslate"><span class="pre">filter_positions()</span></code></a></li>
+<li class="toctree-l4"><a class="reference internal" href="#a2ihelper.editing.independency_gtest"><code class="docutils literal notranslate"><span class="pre">independency_gtest()</span></code></a></li>
+<li class="toctree-l4"><a class="reference internal" href="#a2ihelper.editing.merge_files"><code class="docutils literal notranslate"><span class="pre">merge_files()</span></code></a></li>
+<li class="toctree-l4"><a class="reference internal" href="#a2ihelper.editing.merge_utr"><code class="docutils literal notranslate"><span class="pre">merge_utr()</span></code></a></li>
+<li class="toctree-l4"><a class="reference internal" href="#a2ihelper.editing.pool_positions"><code class="docutils literal notranslate"><span class="pre">pool_positions()</span></code></a></li>
+</ul>
+</li>
+<li class="toctree-l3"><a class="reference internal" href="#a2ihelper-feat-selection-module">a2ihelper.feat_selection module</a></li>
+<li class="toctree-l3"><a class="reference internal" href="#a2ihelper-plot-module">a2ihelper.plot module</a></li>
+<li class="toctree-l3"><a class="reference internal" href="#module-a2ihelper.read">a2ihelper.read module</a><ul>
+<li class="toctree-l4"><a class="reference internal" href="#a2ihelper.read.from_HTseq_counts"><code class="docutils literal notranslate"><span class="pre">from_HTseq_counts()</span></code></a></li>
+<li class="toctree-l4"><a class="reference internal" href="#a2ihelper.read.from_oligo"><code class="docutils literal notranslate"><span class="pre">from_oligo()</span></code></a></li>
+</ul>
+</li>
+<li class="toctree-l3"><a class="reference internal" href="#module-a2ihelper">Module contents</a></li>
+</ul>
+</li>
+</ul>
+</li>
+</ul>
+
+        </div>
+      </div>
+    </nav>
+
+    <section data-toggle="wy-nav-shift" class="wy-nav-content-wrap"><nav class="wy-nav-top" aria-label="Mobile navigation menu" >
+          <i data-toggle="wy-nav-top" class="fa fa-bars"></i>
+          <a href="index.html">a2iHelperPy</a>
+      </nav>
+
+      <div class="wy-nav-content">
+        <div class="rst-content">
+          <div role="navigation" aria-label="Page navigation">
+  <ul class="wy-breadcrumbs">
+      <li><a href="index.html" class="icon icon-home" aria-label="Home"></a></li>
+          <li class="breadcrumb-item"><a href="modules.html">a2ihelper</a></li>
+      <li class="breadcrumb-item active">a2ihelper package</li>
+      <li class="wy-breadcrumbs-aside">
+            <a href="_sources/a2ihelper.rst.txt" rel="nofollow"> View page source</a>
+      </li>
+  </ul>
+  <hr/>
+</div>
+          <div role="main" class="document" itemscope="itemscope" itemtype="http://schema.org/Article">
+           <div itemprop="articleBody">
+             
+  <section id="a2ihelper-package">
+<h1>a2ihelper package<a class="headerlink" href="#a2ihelper-package" title="Permalink to this heading"></a></h1>
+<section id="submodules">
+<h2>Submodules<a class="headerlink" href="#submodules" title="Permalink to this heading"></a></h2>
+</section>
+<section id="module-a2ihelper.call_reditools">
+<span id="a2ihelper-call-reditools-module"></span><h2>a2ihelper.call_reditools module<a class="headerlink" href="#module-a2ihelper.call_reditools" title="Permalink to this heading"></a></h2>
+<dl class="py function">
+<dt class="sig sig-object py" id="a2ihelper.call_reditools.get_genes_positions">
+<span class="sig-prename descclassname"><span class="pre">a2ihelper.call_reditools.</span></span><span class="sig-name descname"><span class="pre">get_genes_positions</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">genes</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">path_ref_annotation</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">gzip_file</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">True</span></span></em><span class="sig-paren">)</span> <span class="sig-return"><span class="sig-return-icon">&#x2192;</span> <span class="sig-return-typehint"><span class="pre">list</span></span></span><a class="reference internal" href="_modules/a2ihelper/call_reditools.html#get_genes_positions"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#a2ihelper.call_reditools.get_genes_positions" title="Permalink to this definition"></a></dt>
+<dd><p>Return the coordinates of a gene symbol from a GTF file. It can be used as input to run_per_gene_position_list.</p>
+<section id="parameters">
+<h3>Parameters<a class="headerlink" href="#parameters" title="Permalink to this heading"></a></h3>
+<dl class="simple">
+<dt>genes: list</dt><dd><p>list of genes to get coordinates</p>
+</dd>
+<dt>path_ref_annotation: str</dt><dd><p>full reference GTF file path.</p>
+</dd>
+</dl>
+</section>
+<section id="returns">
+<h3>Returns<a class="headerlink" href="#returns" title="Permalink to this heading"></a></h3>
+<blockquote>
+<div><dl class="simple">
+<dt>list</dt><dd><p>a list of coordinates of gene symbol (chr:start-end).</p>
+</dd>
+</dl>
+</div></blockquote>
+</section>
+<section id="example">
+<h3>Example<a class="headerlink" href="#example" title="Permalink to this heading"></a></h3>
+<blockquote>
+<div><p>Using the GTF file from gencode</p>
+<div class="doctest highlight-default notranslate"><div class="highlight"><pre><span></span><span class="gp">&gt;&gt;&gt; </span><span class="n">get_genes_positions</span><span class="p">([</span><span class="s1">&#39;B2m&#39;</span><span class="p">,</span> <span class="s1">&#39;Apol1&#39;</span><span class="p">],</span> <span class="s1">&#39;/.../GRCh38.p14.genome.fa&#39;</span><span class="p">)</span>
+<span class="go">[&#39;chr2:122147686-122153083&#39;, &#39;chr18:60803848-60812646&#39;]</span>
+</pre></div>
+</div>
+</div></blockquote>
+</section>
+</dd></dl>
+
+<dl class="py function">
+<dt class="sig sig-object py" id="a2ihelper.call_reditools.indexing_ref">
+<span class="sig-prename descclassname"><span class="pre">a2ihelper.call_reditools.</span></span><span class="sig-name descname"><span class="pre">indexing_ref</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">path_ref_genome</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="_modules/a2ihelper/call_reditools.html#indexing_ref"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#a2ihelper.call_reditools.indexing_ref" title="Permalink to this definition"></a></dt>
+<dd></dd></dl>
+
+<dl class="py function">
+<dt class="sig sig-object py" id="a2ihelper.call_reditools.run_per_gene_position">
+<span class="sig-prename descclassname"><span class="pre">a2ihelper.call_reditools.</span></span><span class="sig-name descname"><span class="pre">run_per_gene_position</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">gene_position</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">str</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">in_bam_file</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">str</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">path_out_res</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">str</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">ref_genome_file</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">str</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">path_reditools</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">str</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">reditools_options</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">str</span></span></em><span class="sig-paren">)</span> <span class="sig-return"><span class="sig-return-icon">&#x2192;</span> <span class="sig-return-typehint"><span class="pre">None</span></span></span><a class="reference internal" href="_modules/a2ihelper/call_reditools.html#run_per_gene_position"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#a2ihelper.call_reditools.run_per_gene_position" title="Permalink to this definition"></a></dt>
+<dd><p>Run reditools2.0 via Python</p>
+<section id="id1">
+<h3>Parameters<a class="headerlink" href="#id1" title="Permalink to this heading"></a></h3>
+<dl class="simple">
+<dt>gene_position<span class="classifier">str</span></dt><dd><p>coordinate of chromossome:start-end positions to search editing sites.
+Example: ‘chr2:122147686-122153083’. One can get the coordinates from gene symbol using get_genes_positions function.</p>
+</dd>
+<dt>in_bam_file<span class="classifier">str</span></dt><dd><p>full input BAM file path</p>
+</dd>
+<dt>path_out_res: str</dt><dd><p>output directory</p>
+</dd>
+<dt>ref_genome_file: str</dt><dd><p>full reference FASTA file path. Must the same used to build the aligned bam file.</p>
+</dd>
+<dt>path_reditools: str</dt><dd><p>full directory where reditools.py is installed. Usually is in similiar path ‘/../reditools2.0/src/cineca’</p>
+</dd>
+<dt>reditools_options: str</dt><dd><p>optional arguments to run reditools2. All the options are expalined in <a class="reference external" href="https://github.com/BioinfoUNIBA/REDItools2">https://github.com/BioinfoUNIBA/REDItools2</a></p>
+</dd>
+</dl>
+</section>
+<section id="id2">
+<h3>Returns<a class="headerlink" href="#id2" title="Permalink to this heading"></a></h3>
+<dl class="simple">
+<dt>None</dt><dd><p>it doesn’t return nothing, just run reditools2</p>
+</dd>
+</dl>
+</section>
+<section id="id3">
+<h3>Example<a class="headerlink" href="#id3" title="Permalink to this heading"></a></h3>
+<blockquote>
+<div><p>Using the toyfile from <a class="reference external" href="https://github.com/guilhermetabordaribas/a2iHelperPy">https://github.com/guilhermetabordaribas/a2iHelperPy</a></p>
+<div class="doctest highlight-default notranslate"><div class="highlight"><pre><span></span><span class="gp">&gt;&gt;&gt; </span><span class="n">gene_position</span> <span class="o">=</span> <span class="s1">&#39;chr2:122147686-122153083&#39;</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="n">in_bam_file</span> <span class="o">=</span> <span class="s1">&#39;/.../sample1.sortedByCoord.out.bam&#39;</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="n">path_out_res</span> <span class="o">=</span> <span class="s1">&#39;/.../out/&#39;</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="n">ref_genome_file</span> <span class="o">=</span> <span class="s1">&#39;/.../GRCh38.p14.genome.fa&#39;</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="n">path_reditools</span> <span class="o">=</span> <span class="s1">&#39;/.../reditools2.0/src/cineca/&#39;</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="n">reditools_options</span> <span class="o">=</span> <span class="s1">&#39;--strict&#39;</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="n">run_per_gene_position</span><span class="p">(</span><span class="n">gene_position</span><span class="p">,</span> <span class="n">in_bam_file</span><span class="p">,</span> <span class="n">path_out_res</span><span class="p">,</span> <span class="n">ref_genome_file</span><span class="p">,</span> <span class="n">path_reditools</span><span class="p">,</span> <span class="n">reditools_options</span><span class="o">=</span><span class="s1">&#39;--strict&#39;</span><span class="p">)</span>
+</pre></div>
+</div>
+</div></blockquote>
+</section>
+</dd></dl>
+
+<dl class="py function">
+<dt class="sig sig-object py" id="a2ihelper.call_reditools.run_per_gene_position_list">
+<span class="sig-prename descclassname"><span class="pre">a2ihelper.call_reditools.</span></span><span class="sig-name descname"><span class="pre">run_per_gene_position_list</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">genes_positions</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">list</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">in_bam_file</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">str</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">path_out_res</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">str</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">ref_genome_file</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">str</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">path_reditools</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">str</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">reditools_options</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">str</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">n_jobs</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">4</span></span></em><span class="sig-paren">)</span> <span class="sig-return"><span class="sig-return-icon">&#x2192;</span> <span class="sig-return-typehint"><span class="pre">None</span></span></span><a class="reference internal" href="_modules/a2ihelper/call_reditools.html#run_per_gene_position_list"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#a2ihelper.call_reditools.run_per_gene_position_list" title="Permalink to this definition"></a></dt>
+<dd><p>Run run_per_gene_position for a list of gense coordinates (genes_positions)</p>
+<section id="id4">
+<h3>Parameters<a class="headerlink" href="#id4" title="Permalink to this heading"></a></h3>
+<dl class="simple">
+<dt>gene_position: list</dt><dd><p>list of coordinates of chromossome:start-end positions to search editing sites.
+Example: [‘chr2:122147686-122153083’, ‘chr18:60803848-60812646’, ‘chr6:65671590-65712326’].
+One can get the coordinates from gene symbol using get_genes_positions function.</p>
+</dd>
+<dt>in_bam_file: str</dt><dd><p>full input file BAM path</p>
+</dd>
+<dt>path_out_res: str</dt><dd><p>output directory</p>
+</dd>
+<dt>ref_genome_file: str</dt><dd><p>full reference FASTA file path. Must the same used to build the aligned bam file.</p>
+</dd>
+<dt>path_reditools: str</dt><dd><p>full directory where reditools.py is installed. Usually is in similiar path ‘/../reditools2.0/src/cineca’</p>
+</dd>
+<dt>reditools_options: str</dt><dd><p>optional arguments to run reditools2. All the options are expalined in <a class="reference external" href="https://github.com/BioinfoUNIBA/REDItools2">https://github.com/BioinfoUNIBA/REDItools2</a></p>
+</dd>
+<dt>n_jobs: int</dt><dd><p>number of jobs in parallel</p>
+</dd>
+</dl>
+</section>
+<section id="id5">
+<h3>Returns<a class="headerlink" href="#id5" title="Permalink to this heading"></a></h3>
+<dl class="simple">
+<dt>None</dt><dd><p>it doesn’t return nothing, just run reditools2 for a list o coordinates</p>
+</dd>
+</dl>
+</section>
+<section id="id6">
+<h3>Example<a class="headerlink" href="#id6" title="Permalink to this heading"></a></h3>
+<blockquote>
+<div><p>Using the toyfile from <a class="reference external" href="https://github.com/guilhermetabordaribas/a2iHelperPy">https://github.com/guilhermetabordaribas/a2iHelperPy</a></p>
+<div class="doctest highlight-default notranslate"><div class="highlight"><pre><span></span><span class="gp">&gt;&gt;&gt; </span><span class="n">genes_positions</span> <span class="o">=</span> <span class="p">[</span><span class="s1">&#39;chr2:122147686-122153083&#39;</span><span class="p">,</span> <span class="s1">&#39;chr6:65671590-65712326&#39;</span><span class="p">,</span> <span class="s1">&#39;chr15:78191114-78206400&#39;</span><span class="p">]</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="n">in_bam_file</span> <span class="o">=</span> <span class="s1">&#39;/.../sample1.sortedByCoord.out.bam&#39;</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="n">path_out_res</span> <span class="o">=</span> <span class="s1">&#39;/.../out/&#39;</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="n">ref_genome_file</span> <span class="o">=</span> <span class="s1">&#39;/.../GRCh38.p14.genome.fa&#39;</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="n">path_reditools</span> <span class="o">=</span> <span class="s1">&#39;/.../reditools2.0/src/cineca/&#39;</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="n">reditools_options</span> <span class="o">=</span> <span class="s1">&#39;--strict&#39;</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="n">run_per_gene_position_list</span><span class="p">(</span><span class="n">genes_positions</span><span class="p">,</span> <span class="n">in_bam_file</span><span class="p">,</span> <span class="n">path_out_res</span><span class="p">,</span> <span class="n">ref_genome_file</span><span class="p">,</span> <span class="n">path_reditools</span><span class="p">,</span> <span class="n">reditools_options</span><span class="o">=</span><span class="s1">&#39;--strict&#39;</span><span class="p">,</span> <span class="n">n_jobs</span><span class="o">=</span><span class="mi">4</span><span class="p">)</span>
+</pre></div>
+</div>
+</div></blockquote>
+</section>
+</dd></dl>
+
+</section>
+<section id="module-a2ihelper.correction">
+<span id="a2ihelper-correction-module"></span><h2>a2ihelper.correction module<a class="headerlink" href="#module-a2ihelper.correction" title="Permalink to this heading"></a></h2>
+<dl class="py class">
+<dt class="sig sig-object py" id="a2ihelper.correction.SCALE_FACTOR">
+<em class="property"><span class="pre">class</span><span class="w"> </span></em><span class="sig-prename descclassname"><span class="pre">a2ihelper.correction.</span></span><span class="sig-name descname"><span class="pre">SCALE_FACTOR</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">scaler</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">False</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="_modules/a2ihelper/correction.html#SCALE_FACTOR"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#a2ihelper.correction.SCALE_FACTOR" title="Permalink to this definition"></a></dt>
+<dd><p>Bases: <code class="xref py py-class docutils literal notranslate"><span class="pre">BaseEstimator</span></code>, <code class="xref py py-class docutils literal notranslate"><span class="pre">TransformerMixin</span></code></p>
+<dl class="py method">
+<dt class="sig sig-object py" id="a2ihelper.correction.SCALE_FACTOR.deseq2_scl_fac">
+<span class="sig-name descname"><span class="pre">deseq2_scl_fac</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">X</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="_modules/a2ihelper/correction.html#SCALE_FACTOR.deseq2_scl_fac"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#a2ihelper.correction.SCALE_FACTOR.deseq2_scl_fac" title="Permalink to this definition"></a></dt>
+<dd></dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="a2ihelper.correction.SCALE_FACTOR.fit">
+<span class="sig-name descname"><span class="pre">fit</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">X</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">y</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">None</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="_modules/a2ihelper/correction.html#SCALE_FACTOR.fit"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#a2ihelper.correction.SCALE_FACTOR.fit" title="Permalink to this definition"></a></dt>
+<dd></dd></dl>
+
+</dd></dl>
+
+<dl class="py class">
+<dt class="sig sig-object py" id="a2ihelper.correction.TPM">
+<em class="property"><span class="pre">class</span><span class="w"> </span></em><span class="sig-prename descclassname"><span class="pre">a2ihelper.correction.</span></span><span class="sig-name descname"><span class="pre">TPM</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">gene_len</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">idx</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">'all'</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">scaler</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">False</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="_modules/a2ihelper/correction.html#TPM"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#a2ihelper.correction.TPM" title="Permalink to this definition"></a></dt>
+<dd><p>Bases: <code class="xref py py-class docutils literal notranslate"><span class="pre">BaseEstimator</span></code>, <code class="xref py py-class docutils literal notranslate"><span class="pre">TransformerMixin</span></code></p>
+<dl class="py method">
+<dt class="sig sig-object py" id="a2ihelper.correction.TPM.fit">
+<span class="sig-name descname"><span class="pre">fit</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">X</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">y</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">None</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="_modules/a2ihelper/correction.html#TPM.fit"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#a2ihelper.correction.TPM.fit" title="Permalink to this definition"></a></dt>
+<dd></dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="a2ihelper.correction.TPM.transform">
+<span class="sig-name descname"><span class="pre">transform</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">X</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">y</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">None</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="_modules/a2ihelper/correction.html#TPM.transform"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#a2ihelper.correction.TPM.transform" title="Permalink to this definition"></a></dt>
+<dd></dd></dl>
+
+</dd></dl>
+
+</section>
+<section id="module-a2ihelper.editing">
+<span id="a2ihelper-editing-module"></span><h2>a2ihelper.editing module<a class="headerlink" href="#module-a2ihelper.editing" title="Permalink to this heading"></a></h2>
+<dl class="py function">
+<dt class="sig sig-object py" id="a2ihelper.editing.anova_tukey">
+<span class="sig-prename descclassname"><span class="pre">a2ihelper.editing.</span></span><span class="sig-name descname"><span class="pre">anova_tukey</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">df</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="_modules/a2ihelper/editing.html#anova_tukey"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#a2ihelper.editing.anova_tukey" title="Permalink to this definition"></a></dt>
+<dd></dd></dl>
+
+<dl class="py function">
+<dt class="sig sig-object py" id="a2ihelper.editing.filter_gtest">
+<span class="sig-prename descclassname"><span class="pre">a2ihelper.editing.</span></span><span class="sig-name descname"><span class="pre">filter_gtest</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">df_a</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">df_g</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">pvalue_filter_limit</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">0.05</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">gtest_filter_limit</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">0</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">bh_correction</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">False</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="_modules/a2ihelper/editing.html#filter_gtest"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#a2ihelper.editing.filter_gtest" title="Permalink to this definition"></a></dt>
+<dd></dd></dl>
+
+<dl class="py function">
+<dt class="sig sig-object py" id="a2ihelper.editing.filter_positions">
+<span class="sig-prename descclassname"><span class="pre">a2ihelper.editing.</span></span><span class="sig-name descname"><span class="pre">filter_positions</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">df</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">nan_filter</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">True</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">nan_filter_limit</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">0</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">zero_filter</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">True</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">zero_filter_limit</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">0</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">hundred_filter</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">True</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">hundred_filter_limit</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">0</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="_modules/a2ihelper/editing.html#filter_positions"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#a2ihelper.editing.filter_positions" title="Permalink to this definition"></a></dt>
+<dd></dd></dl>
+
+<dl class="py function">
+<dt class="sig sig-object py" id="a2ihelper.editing.independency_gtest">
+<span class="sig-prename descclassname"><span class="pre">a2ihelper.editing.</span></span><span class="sig-name descname"><span class="pre">independency_gtest</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">df_a</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">df_g</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">only_pvalue</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">True</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="_modules/a2ihelper/editing.html#independency_gtest"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#a2ihelper.editing.independency_gtest" title="Permalink to this definition"></a></dt>
+<dd></dd></dl>
+
+<dl class="py function">
+<dt class="sig sig-object py" id="a2ihelper.editing.merge_files">
+<span class="sig-prename descclassname"><span class="pre">a2ihelper.editing.</span></span><span class="sig-name descname"><span class="pre">merge_files</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">meta</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="_modules/a2ihelper/editing.html#merge_files"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#a2ihelper.editing.merge_files" title="Permalink to this definition"></a></dt>
+<dd><p>Merge all RES files (output of REDItools2) in three pandas DataFrames of frequency or count per position.
+The first DataFrame is the frequency of editing (A-G or T-C). The Second DataFrame is the count of A (or T) per position. And the last one is the count of G (or C) per postion.</p>
+<section id="id7">
+<h3>Parameters<a class="headerlink" href="#id7" title="Permalink to this heading"></a></h3>
+<dl class="simple">
+<dt>meta: df</dt><dd><dl class="simple">
+<dt>A pandas DataFrame with metadata information. The columns must be:</dt><dd><p>First: Full path file names of REDItools2 results tables
+Second: Samples names</p>
+</dd>
+</dl>
+</dd>
+</dl>
+</section>
+<section id="id8">
+<h3>Returns<a class="headerlink" href="#id8" title="Permalink to this heading"></a></h3>
+<dl class="simple">
+<dt>tuple</dt><dd><p>a tuple of three pandas DataFrames (df, df_a, df_g).
+df: frequency of editing
+df_a: counts of A or T
+df_g: counts of G or C</p>
+</dd>
+</dl>
+</section>
+</dd></dl>
+
+<dl class="py function">
+<dt class="sig sig-object py" id="a2ihelper.editing.merge_utr">
+<span class="sig-prename descclassname"><span class="pre">a2ihelper.editing.</span></span><span class="sig-name descname"><span class="pre">merge_utr</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">res</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">utr</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="_modules/a2ihelper/editing.html#merge_utr"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#a2ihelper.editing.merge_utr" title="Permalink to this definition"></a></dt>
+<dd></dd></dl>
+
+<dl class="py function">
+<dt class="sig sig-object py" id="a2ihelper.editing.pool_positions">
+<span class="sig-prename descclassname"><span class="pre">a2ihelper.editing.</span></span><span class="sig-name descname"><span class="pre">pool_positions</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">df_a</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">df_g</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">pvalue_filter_limit</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">0.05</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">gtest_filter_limit</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">0</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">bh_correction</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">False</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="_modules/a2ihelper/editing.html#pool_positions"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#a2ihelper.editing.pool_positions" title="Permalink to this definition"></a></dt>
+<dd></dd></dl>
+
+</section>
+<section id="a2ihelper-feat-selection-module">
+<h2>a2ihelper.feat_selection module<a class="headerlink" href="#a2ihelper-feat-selection-module" title="Permalink to this heading"></a></h2>
+</section>
+<section id="a2ihelper-plot-module">
+<h2>a2ihelper.plot module<a class="headerlink" href="#a2ihelper-plot-module" title="Permalink to this heading"></a></h2>
+</section>
+<section id="module-a2ihelper.read">
+<span id="a2ihelper-read-module"></span><h2>a2ihelper.read module<a class="headerlink" href="#module-a2ihelper.read" title="Permalink to this heading"></a></h2>
+<dl class="py function">
+<dt class="sig sig-object py" id="a2ihelper.read.from_HTseq_counts">
+<span class="sig-prename descclassname"><span class="pre">a2ihelper.read.</span></span><span class="sig-name descname"><span class="pre">from_HTseq_counts</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">path</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">obs</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">False</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">var</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">False</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">sep</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">'\t'</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">translation</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">False</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="_modules/a2ihelper/read.html#from_HTseq_counts"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#a2ihelper.read.from_HTseq_counts" title="Permalink to this definition"></a></dt>
+<dd></dd></dl>
+
+<dl class="py function">
+<dt class="sig sig-object py" id="a2ihelper.read.from_oligo">
+<span class="sig-prename descclassname"><span class="pre">a2ihelper.read.</span></span><span class="sig-name descname"><span class="pre">from_oligo</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">counts</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">obs</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">False</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">var</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">False</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">sep</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">'\t'</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">translation</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">False</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="_modules/a2ihelper/read.html#from_oligo"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#a2ihelper.read.from_oligo" title="Permalink to this definition"></a></dt>
+<dd></dd></dl>
+
+</section>
+<section id="module-a2ihelper">
+<span id="module-contents"></span><h2>Module contents<a class="headerlink" href="#module-a2ihelper" title="Permalink to this heading"></a></h2>
+</section>
+</section>
+
+
+           </div>
+          </div>
+          <footer><div class="rst-footer-buttons" role="navigation" aria-label="Footer">
+        <a href="modules.html" class="btn btn-neutral float-left" title="a2ihelper" accesskey="p" rel="prev"><span class="fa fa-arrow-circle-left" aria-hidden="true"></span> Previous</a>
+    </div>
+
+  <hr/>
+
+  <div role="contentinfo">
+    <p>&#169; Copyright 2024, Guilherme Taborda Ribas.</p>
+  </div>
+
+  Built with <a href="https://www.sphinx-doc.org/">Sphinx</a> using a
+    <a href="https://github.com/readthedocs/sphinx_rtd_theme">theme</a>
+    provided by <a href="https://readthedocs.org">Read the Docs</a>.
+   
+
+</footer>
+        </div>
+      </div>
+    </section>
+  </div>
+  <script>
+      jQuery(function () {
+          SphinxRtdTheme.Navigation.enable(true);
+      });
+  </script> 
+
+</body>
+</html>
