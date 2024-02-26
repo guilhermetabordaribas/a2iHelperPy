@@ -1,6 +1,9 @@
+import itertools
+
 import pandas as pd
 import numpy as np
-from scipy.stats import chi2_contingency, fisher_exact
+from scipy.stats import chi2_contingency, fisher_exact, f_oneway, tukey_hsd, kruskal, dunnett
+
 
 def merge_files(meta):
     """
@@ -232,38 +235,67 @@ def pool_positions(df_a, df_g, pvalue_filter_limit=0.05, gtest_filter_limit=0, b
 
     return aux_a, aux_g
 
-def anova_tukey(df):
-    # Anova e tukey analysis
-    if df.iloc[:,:-1].empty:
+def anova_tukey_test(df, only_pvalue=True, return_only_significant=True, pvalue_filter_limit=0.05):
+    """
+    # Need to test in more than two conditions and to return a dataframe
+    Anova with post-hoc test for more than two conditions.
+
+    Parameters
+    ----------
+    df: df
+        pandas DataFrame of editing frequency. Rows are samples and columns are coordinates. The DataFrame must be like merge_files output. The last two columns must be region and conditions.
+
+    Returns
+    -------
+    DataFrame
+        returns p-values for Anova post-hoc test.
+    """
+    if df.iloc[:,:-2].empty:
         print('The input is an empty DataFrame. In this case the function returns empty list []')
         return False
     res = []
+    pos = []
+    index_comb = []
     cols_tukey = list(itertools.combinations( df.iloc[:,-1].unique(), 2) )
-    for c in df.columns[:-1]:
-        aux_aov = pg.anova(dv=c, between=df.columns[-1], data=df, detailed=False)
-        # print(aux_aov)
-        if not aux_aov[aux_aov['p-unc']<=0.1].empty:
-            aux_tukey = sp.posthoc_tukey(df, val_col=c, group_col=df.columns[-1])
+    conditions = df.iloc[:,-1].unique()
+    for c in df.columns[:-2]:
+        data_by_condition = []
+        for cond in conditions:
+            data_by_condition.append(df[df.iloc[:,-1]==cond][c].values)
+        aux_aov = f_oneway(*data_by_condition)
+        if aux_aov.pvalue<=0.05:
+            aux_tukey = tukey_hsd(*data_by_condition)
+            if return_only_significant and ((aux_tukey.pvalue <= pvalue_filter_limit).astype(int).sum() > 0):
+                for cond_comb in itertools.combinations(range(len(conditions)),2):
+                    if only_pvalue:
+                        res.append(aux_tukey.pvalue[cond_comb])
+                        pos.append(c)
+                        index_comb.append(cond_comb)
+                    else:
+                        res.append(aux_tukey)
+                        pos.append(c)
+                        index_comb.append(cond_comb)
+            elif not return_only_significant:
+                for cond_comb in itertools.combinations(range(len(conditions)),2):
+                    if only_pvalue:
+                        res.append(aux_tukey.pvalue[cond_comb])
+                        pos.append(c)
+                        index_comb.append(cond_comb)
+                    else:
+                        res.append(aux_tukey)
+                        pos.append(c)
+                        index_comb.append(cond_comb)
 
-            if (aux_tukey<0.1).values.sum() > 0 :
-                res.append(aux_aov)
-
-                aux_tukey = aux_tukey.loc[df.iloc[:,-1].unique(), df.iloc[:,-1].unique()] # just to confirm that the order will be always the same
-                np.fill_diagonal(aux_tukey.values, 0) # to transform to squareform, the diagonal must be zero
-                res[-1].loc[:,cols_tukey] = squareform(aux_tukey)
-
-                res[-1]['Position'] = c
-                # df = df[array_filter]
-    return res
+    return res,pos,index_comb
 
 
-def chi2_test(df_a, df_b, only_pvalue=True, return_only_significant=True, pvalue_filter_limit=0.05):
+def chi2_test(df_a, df_g, only_pvalue=True, return_only_significant=True, pvalue_filter_limit=0.05):
     aux_pv = []
     for c in df_a.columns[:-2]:
         if only_pvalue:
-            aux_pv.append(chi2_contingency([a[c].values, g[c].values], lambda_="log-likelihood").pvalue)
+            aux_pv.append(chi2_contingency([df_a[c].values, df_g[c].values], lambda_="log-likelihood").pvalue)
         else:
-            aux_pv.append(chi2_contingency([a[c].values, g[c].values], lambda_="log-likelihood"))
+            aux_pv.append(chi2_contingency([df_a[c].values, df_g[c].values], lambda_="log-likelihood"))
 
     if only_pvalue:
         chi2_res = pd.DataFrame(aux_pv, index=df_a.columns[:-2], columns=['pvalue'])
@@ -277,13 +309,13 @@ def chi2_test(df_a, df_b, only_pvalue=True, return_only_significant=True, pvalue
     chi2_res['condition'] = '_vs_'.join(df_a.condition.unique())
     return chi2_res
 
-def fisher_test(df_a, df_b, only_pvalue=True, return_only_significant=True, pvalue_filter_limit=0.05):
+def fisher_test(df_a, df_g, only_pvalue=True, return_only_significant=True, pvalue_filter_limit=0.05):
     aux_pv = []
     for c in df_a.columns[:-2]:
         if only_pvalue:
-            aux_pv.append(fisher_exact([a[c].values, g[c].values], alternative='two-sided').pvalue)
+            aux_pv.append(fisher_exact([df_a[c].values, df_g[c].values], alternative='two-sided').pvalue)
         else:
-            aux_pv.append(fisher_exact([a[c].values, g[c].values], alternative='two-sided'))
+            aux_pv.append(fisher_exact([df_a[c].values, df_g[c].values], alternative='two-sided'))
 
     if only_pvalue:
         fisher_res = pd.DataFrame(aux_pv, index=df_a.columns[:-2], columns=['pvalue'])
