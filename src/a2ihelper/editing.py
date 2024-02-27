@@ -2,9 +2,8 @@ import itertools
 
 import pandas as pd
 import numpy as np
-from scipy.stats import chi2_contingency, fisher_exact, f_oneway, tukey_hsd, kruskal#, dunnett
+from scipy.stats import chi2_contingency, fisher_exact, f_oneway, tukey_hsd, kruskal
 import scikit_posthocs as sp
-
 
 
 def merge_files(meta):

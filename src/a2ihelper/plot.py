@@ -9,6 +9,49 @@ import pandas as pd
 from sklearn.decomposition import PCA
 from sklearn.manifold import TSNE
 
+def boxplot(df, positions_to_plot:list = None, ax=None, figsize:tuple = None):
+    if positions_to_plot == None:
+        aux = df.drop(df.columns[-2], axis=1).melt(id_vars=df.columns[-1])
+    else:
+        aux = df[positions_to_plot + [df.columns[-1]]].melt(id_vars=df.columns[-1])
+    if ax == None:
+        if figsize:
+            f, ax = plt.subplots()
+        else:
+            f, ax = plt.subplots(figsize=figsize)
+
+    x = 'variable'
+    y = 'value'
+    hue = df.columns[-1]
+
+    sns.boxplot(x=x, y=y, hue=hue, data=aux, ax=ax)
+    ax.set_xlabel('Positions')
+    ax.set_ylabel('Editing Frequencies')
+    ax.set_title(','.join(df.iloc[:,-2].unique()))
+
+    return ax
+
+def manhattanplot(df_pv, positions_to_plot:list = None, ax=None, figsize:tuple = None):
+    if positions_to_plot == None:
+        aux = df.drop(df.columns[-2], axis=1).melt(id_vars=df.columns[-1])
+    else:
+        aux = df[positions_to_plot + [df.columns[-1]]].melt(id_vars=df.columns[-1])
+    if ax == None:
+        if figsize:
+            f, ax = plt.subplots()
+        else:
+            f, ax = plt.subplots(figsize=figsize)
+
+    x = 'variable'
+    y = 'value'
+    hue = df.columns[-1]
+
+    sns.boxplot(x=x, y=y, hue=hue, data=aux, ax=ax)
+    ax.set_xlabel('Positions')
+    ax.set_ylabel('Editing Frequencies')
+    ax.set_title(','.join(df.iloc[:,-2].unique()))
+
+    return ax
 
 def volcanoplot(data, pv_col='padj', pv_lim=0.1, logFC_col='log2FoldChange', logFC_lim=1.5, gene_col=False, figsize=None, ax=None, use_adjusttext=False, text=None):
     df = data.copy()
