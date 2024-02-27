@@ -5,9 +5,9 @@ Submodules
 ----------
 
 a2ihelper.call\_reditools2 module
----------------------------------
+--------------------------------
 
-.. automodule:: a2ihelper.call_reditools2
+.. automodule:: a2ihelper.call_reditools
    :members:
    :undoc-members:
    :show-inheritance:

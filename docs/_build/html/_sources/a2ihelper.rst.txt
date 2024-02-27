@@ -4,10 +4,10 @@ a2ihelper package
 Submodules
 ----------
 
-a2ihelper.call\_reditools module
---------------------------------
+a2ihelper.call\_reditools2 module
+---------------------------------
 
-.. automodule:: a2ihelper.call_reditools
+.. automodule:: a2ihelper.call_reditools2
    :members:
    :undoc-members:
    :show-inheritance:

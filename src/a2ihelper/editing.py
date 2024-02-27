@@ -2,7 +2,9 @@ import itertools
 
 import pandas as pd
 import numpy as np
-from scipy.stats import chi2_contingency, fisher_exact, f_oneway, tukey_hsd, kruskal, dunnett
+from scipy.stats import chi2_contingency, fisher_exact, f_oneway, tukey_hsd, kruskal#, dunnett
+import scikit_posthocs as sp
+
 
 
 def merge_files(meta):
@@ -235,7 +237,7 @@ def pool_positions(df_a, df_g, pvalue_filter_limit=0.05, gtest_filter_limit=0, b
 
     return aux_a, aux_g
 
-def anova_tukey_test(df, only_pvalue=True, return_only_significant=True, pvalue_filter_limit=0.05):
+def anova_tukey_test(df, only_pvalue:bool = True, pvalue_filter_limit_anova:float = 0.05, pvalue_filter_limit_tukey:float = 0.05, return_only_significant:bool = True):
     """
     # Need to test in more than two conditions and to return a dataframe
     Anova with post-hoc test for more than two conditions.
@@ -263,9 +265,9 @@ def anova_tukey_test(df, only_pvalue=True, return_only_significant=True, pvalue_
         for cond in conditions:
             data_by_condition.append(df[df.iloc[:,-1]==cond][c].values)
         aux_aov = f_oneway(*data_by_condition)
-        if aux_aov.pvalue<=0.05:
+        if aux_aov.pvalue<=pvalue_filter_limit_anova:
             aux_tukey = tukey_hsd(*data_by_condition)
-            if return_only_significant and ((aux_tukey.pvalue <= pvalue_filter_limit).astype(int).sum() > 0):
+            if return_only_significant and ((aux_tukey.pvalue <= pvalue_filter_limit_tukey).astype(int).sum() > 0):
                 for cond_comb in itertools.combinations(range(len(conditions)),2):
                     if only_pvalue:
                         res.append(aux_tukey.pvalue[cond_comb])
@@ -288,6 +290,49 @@ def anova_tukey_test(df, only_pvalue=True, return_only_significant=True, pvalue_
 
     return res,pos,index_comb
 
+def kruskal_dunn_test(df, only_pvalue:bool = True, pvalue_filter_limit_kruskal:float = 0.05, pvalue_filter_limit_dunn:float = 0.05, return_only_significant:bool = True, p_adjust:str = None):
+    """
+    # Need to test in more than two conditions and to return a dataframe
+    Kruskal-Wallis with post-hoc test for more than two conditions.
+
+    Parameters
+    ----------
+    df: df
+        pandas DataFrame of editing frequency. Rows are samples and columns are coordinates. The DataFrame must be like merge_files output. The last two columns must be region and conditions.
+
+    Returns
+    -------
+    DataFrame
+        returns p-values for Anova post-hoc test.
+    """
+    if df.iloc[:,:-2].empty:
+        print('The input is an empty DataFrame. In this case the function returns empty list []')
+        return False
+    res = []
+    pos = []
+    index_comb = []
+    cols_tukey = list(itertools.combinations( df.iloc[:,-1].unique(), 2) )
+    conditions = df.iloc[:,-1].unique()
+    for c in df.columns[:-2]:
+        data_by_condition = []
+        for cond in conditions:
+            data_by_condition.append(df[df.iloc[:,-1]==cond][c].values)
+        aux_aov = kruskal(*data_by_condition)
+        if aux_aov.pvalue<=pvalue_filter_limit_kruskal:
+            # aux_tukey = tukey_hsd(*data_by_condition)
+            aux_dunn = sp.posthoc_dunn(a=df, val_col=c, group_col='condition', p_adjust=p_adjust)
+            if return_only_significant and ( (aux_dunn<=pvalue_filter_limit_dunn).astype(int).sum().sum()>0 ):
+                for cond_comb in itertools.combinations(conditions, 2):
+                    res.append(aux_dunn.loc[cond_comb])
+                    pos.append(c)
+                    index_comb.append(cond_comb)
+            elif not return_only_significant:
+                for cond_comb in itertools.combinations(conditions, 2):
+                    res.append(aux_dunn.loc[cond_comb])
+                    pos.append(c)
+                    index_comb.append(cond_comb)
+
+    return res,pos,index_comb
 
 def chi2_test(df_a, df_g, only_pvalue=True, return_only_significant=True, pvalue_filter_limit=0.05):
     aux_pv = []
