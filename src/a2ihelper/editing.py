@@ -3,6 +3,7 @@ import itertools
 import pandas as pd
 import numpy as np
 from scipy.stats import chi2_contingency, fisher_exact, f_oneway, tukey_hsd, kruskal
+from scipy.stats.contingency import odds_ratio
 import scikit_posthocs as sp
 
 
@@ -371,9 +372,19 @@ def fisher_test(df_a, df_g, only_pvalue=True, return_only_significant=True, pval
 
     fisher_res['region'] = df_a.iloc[0,-2]
     fisher_res['condition'] = '_vs_'.join(df_a.condition.unique())
+
     return fisher_res
 
+def odds_r(df_a, df_g):
+    aux_or = []
+    for c in df_a.columns[:-2]:
+        aux_or.append(odds_ratio([df_a[c].astype(int).values, df_g[c].astype(int).values], kind='conditional').statistic)
+    odds_res = pd.DataFrame(aux_or, index=df_a.columns[:-2], columns=['odds_ratio']).T
 
+    odds_res['region'] = df_a.iloc[0,-2]
+    odds_res['condition'] = '_vs_'.join(df_a.condition.unique())
+
+    return odds_res
 # def chi2_test(df_a, df_b):
 #     power_divergence(table) para todas posiçoes e tipos para avaliar a divergencia
     # return []

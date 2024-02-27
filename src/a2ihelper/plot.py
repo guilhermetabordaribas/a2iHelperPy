@@ -31,25 +31,23 @@ def boxplot(df, positions_to_plot:list = None, ax=None, figsize:tuple = None):
 
     return ax
 
-def manhattanplot(df_pv, positions_to_plot:list = None, ax=None, figsize:tuple = None):
-    if positions_to_plot == None:
-        aux = df.drop(df.columns[-2], axis=1).melt(id_vars=df.columns[-1])
-    else:
-        aux = df[positions_to_plot + [df.columns[-1]]].melt(id_vars=df.columns[-1])
+def manhattanplot(df_or, df_pv, positions_to_plot:list = None, ax=None, figsize:tuple = None):
+    aux_m = pd.concat([df_or,df_pv]).iloc[:,:-2].T.reset_index()
+    aux_m['-log10(pvalue)'] = -np.log10(aux_m['pvalue'])
     if ax == None:
         if figsize:
             f, ax = plt.subplots()
         else:
             f, ax = plt.subplots(figsize=figsize)
 
-    x = 'variable'
-    y = 'value'
-    hue = df.columns[-1]
+    x = 'index'
+    y = '-log10(pvalue)'
+    hue = 'odds_ratio'
 
-    sns.boxplot(x=x, y=y, hue=hue, data=aux, ax=ax)
+    sns.scatterplot(x=x, y=y, hue=hue, data=aux_m, ax=ax)
     ax.set_xlabel('Positions')
-    ax.set_ylabel('Editing Frequencies')
-    ax.set_title(','.join(df.iloc[:,-2].unique()))
+    ax.set_ylabel('-log10(pvalue)')
+    ax.set_title(','.join(df_or.iloc[:,-1].unique()))
 
     return ax
 
