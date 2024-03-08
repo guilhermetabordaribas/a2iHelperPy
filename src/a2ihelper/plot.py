@@ -35,7 +35,7 @@ def boxplot(df, positions_to_plot:list = None, ax=None, figsize:tuple = None):
 
     return ax
 
-def manhattanplot(df_or, df_pv, ax=None, figsize:tuple = None):
+def manhattanplot(df_or, df_pv, p_value_line:float = None, ax=None, figsize:tuple = None):
     aux_m = pd.concat([df_or,df_pv]).iloc[:,:-2].T.reset_index()
     aux_m['-log10(pvalue)'] = -np.log10(aux_m['pvalue'])
     if ax == None:
@@ -44,6 +44,7 @@ def manhattanplot(df_or, df_pv, ax=None, figsize:tuple = None):
         else:
             f, ax = plt.subplots(figsize=figsize)
 
+    aux_m['index'] = aux_m['index'].astype(str)
     x = 'index'
     y = '-log10(pvalue)'
     hue = 'odds_ratio'
@@ -51,9 +52,11 @@ def manhattanplot(df_or, df_pv, ax=None, figsize:tuple = None):
     sns.scatterplot(x=x, y=y, hue=hue, data=aux_m, ax=ax)
     ax.set_xlabel('Positions')
     ax.set_xticks(ax.get_xticks())
-    ax.set_xticklabels(ax.get_xticks().astype(int), rotation=90)
+    ax.set_xticklabels(ax.get_xticklabels(), rotation=90)
     ax.set_ylabel('-log10(pvalue)')
     ax.set_title(','.join(df_or.iloc[:,-1].unique())+' ('+','.join(df_or.iloc[:,-2].unique())+')')
+    if p_value_line:
+        ax.axhline(-np.log10(p_value_line), ls='--', lw=1, color='gray')
 
     return ax
 

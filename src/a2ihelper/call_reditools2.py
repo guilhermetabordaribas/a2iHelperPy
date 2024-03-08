@@ -50,7 +50,7 @@ def run_per_gene_position(gene_position: str, in_bam_file: str, path_out_res: st
         cmd_list += reditools_options.split(' ')
     subprocess.call(cmd_list, cwd=path_reditools, stdout=subprocess.PIPE)
 
-def run_per_gene_position_list(genes_positions: list, in_bam_file: str, path_out_res: str, ref_genome_file: str, path_reditools: str, reditools_options: str, n_jobs=4) -> None:
+def run_per_gene_position_list(genes_positions: list, in_bam_file: str, path_out_res: str, ref_genome_file: str, path_reditools: str, reditools_options: str, n_jobs:int = 4) -> None:
     """
     Run run_per_gene_position for a list of gense coordinates (genes_positions)
 
@@ -95,7 +95,7 @@ def run_per_gene_position_list(genes_positions: list, in_bam_file: str, path_out
     with Pool(processes=n_jobs) as p:
         p.starmap(run_per_gene_position, arguments_list)
 
-def get_genes_positions(genes, path_ref_annotation, gzip_file=True) -> list:
+def get_genes_positions(genes:list, path_ref_annotation:str, gzip_file:bool = False) -> list:
     """
     Return the coordinates of a gene symbol from a GTF file. It can be used as input to run_per_gene_position_list.
 
@@ -148,6 +148,100 @@ def get_genes_positions(genes, path_ref_annotation, gzip_file=True) -> list:
 
     return dict(zip(gens_aux,genes_positions_list))
 
+def get_utr_genes_positions(genes:list, path_ref_annotation:str, gzip_file:bool = False) -> list:
+    """
+    Return the coordinates of a gene symbol from a GTF file. It can be used as input to run_per_gene_position_list.
+
+    Parameters
+    ----------
+    genes: list
+        list of genes to get coordinates
+    path_ref_annotation: str
+        full reference GTF file path.
+
+    Returns
+    -------
+        dict
+            a dict of coordinates of each gene symbol (chr:start-end).
+
+    Example
+    -------
+        Using the GTF file from gencode
+
+        >>> get_genes_positions(['B2m', 'Apol1'], '/.../GRCh38.p14.genome.fa')
+        ['chr2:122147686-122153083', 'chr18:60803848-60812646']
+    """
+
+    genes_positions_list = []
+    gens_aux = []
+    gzip_file = False
+    get_gene = False
+    chr = ''
+    start_gene = ''
+    end_gene = ''
+
+    if genes:
+        if gzip_file:
+            # for g in genes:
+            with gzip.open(path_ref_annotation,'r') as f_gtf:
+                for line in f_gtf:
+                    if not line.startswith('#'.encode()):
+                        l = line.decode().split('\t')
+                        dict_g = { i.split(' ')[0]:i.split(' ')[1] for i in [j.strip() for j in l[-1].replace(';\n','').replace('"','').split(';')] }
+                        if (l[2]=='gene') and (dict_g['gene_name'] in genes):
+                            chr = l[0]
+                            start_gene = l[3]
+                            end_gene = l[4]
+                            get_gene = True
+                            # gens_aux.append( dict_g['gene_name'] )
+                        elif (get_gene) and (l[2]=='start_codon'):
+                            start_codon = l[3]
+                            gens_aux.append( dict_g['gene_name']+'_5UTR' )
+                            if start_gene != start_codon:
+                                genes_positions_list.append(chr+':'+start_gene+'-'+str(int(start_codon)-1))
+                            else:
+                                genes_positions_list.append(chr+':'+start_gene+'-'+start_codon)
+                        elif (get_gene) and (l[2]=='stop_codon'):
+                            stop_codon = l[4]
+                            gens_aux.append( dict_g['gene_name']+'_3UTR' )
+                            if end_gene != stop_codon:
+                                genes_positions_list.append(chr+':'+str(int(stop_codon)+1)+'-'+end_gene)
+                            else:
+                                genes_positions_list.append(chr+':'+stop_codon+'-'+end_gene)
+                            get_gene = False #control for get start and stop codon after gotten gene
+        else:
+            # for g in genes:
+            with open(path_ref_annotation,'r') as f_gtf:
+                for line in f_gtf:
+                    if not line.startswith('#'):
+                        l = line.split('\t')
+                        dict_g = { i.split(' ')[0]:i.split(' ')[1] for i in [j.strip() for j in l[-1].replace(';\n','').replace('"','').split(';')] }
+                        if (l[2]=='gene') and (dict_g['gene_name'] in genes):
+                            chr = l[0]
+                            start_gene = l[3]
+                            end_gene = l[4]
+                            get_gene = True
+                            # gens_aux.append( dict_g['gene_name'] )
+                        elif (get_gene) and (l[2]=='start_codon'):
+                            start_codon = l[3]
+                            gens_aux.append( dict_g['gene_name']+'_5UTR' )
+                            if start_gene != start_codon:
+                                genes_positions_list.append(chr+':'+start_gene+'-'+str(int(start_codon)-1))
+                            else:
+                                genes_positions_list.append(chr+':'+start_gene+'-'+start_codon)
+                        elif (get_gene) and (l[2]=='stop_codon'):
+                            stop_codon = l[4]
+                            gens_aux.append( dict_g['gene_name']+'_3UTR' )
+                            if end_gene != stop_codon:
+                                genes_positions_list.append(chr+':'+str(int(stop_codon)+1)+'-'+end_gene)
+                            else:
+                                genes_positions_list.append(chr+':'+stop_codon+'-'+end_gene)
+                            get_gene = False #control for get start and stop codon after gotten gene
+
+    if not genes_positions_list:
+        warnings.warn('*Returning empty list* -> Positions of genes were not found in the '+ path_ref_annotation+'. Please verify genes names or gtf file.')
+
+    return dict(zip(gens_aux,genes_positions_list))
 
 def indexing_ref(path_ref_genome):
     pass

@@ -488,14 +488,14 @@ def odds_r(df_a, df_g):
 #     REGIONS = meta.iloc[:,2].unique()[:1]
 
 
-def merge_utr(res, utr):
-    utr_list = []
-    for i in range(res.shape[0]):
-        p = res.iloc[i, 7]
-        r = res.iloc[i, 8]
-        if not utr[(utr.gene_name==r) & (utr.utr_max >= p) & (utr.utr_min <= p)].empty:
-            utr_list.append(utr[(utr.gene_name==r) & (utr.utr_max>=p) & (utr.utr_min<=p)].utr_type.values[0])
-        else:
-            utr_list.append('non_utr')
-    res['utr_type'] = utr_list
-    return res
+# def merge_utr(res, utr):
+#     utr_list = []
+#     for i in range(res.shape[0]):
+#         p = res.iloc[i, 7]
+#         r = res.iloc[i, 8]
+#         if not utr[(utr.gene_name==r) & (utr.utr_max >= p) & (utr.utr_min <= p)].empty:
+#             utr_list.append(utr[(utr.gene_name==r) & (utr.utr_max>=p) & (utr.utr_min<=p)].utr_type.values[0])
+#         else:
+#             utr_list.append('non_utr')
+#     res['utr_type'] = utr_list
+#     return res
