@@ -10,12 +10,11 @@ from sklearn.decomposition import PCA
 from sklearn.manifold import TSNE
 
 def boxplot(df, positions_to_plot:list = None, ax=None, figsize:tuple = None):
-    if not isinstance(positions_to_plot, list):
-        positions_to_plot = positions_to_plot.tolist()
-
     if positions_to_plot == None:
         aux = df.drop(df.columns[-2], axis=1).melt(id_vars=df.columns[-1])
     else:
+        if not isinstance(positions_to_plot, list):
+            positions_to_plot = positions_to_plot.tolist()
         aux = df[positions_to_plot + [df.columns[-1]]].melt(id_vars=df.columns[-1])
     if ax == None:
         if figsize:
