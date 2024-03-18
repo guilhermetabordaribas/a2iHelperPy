@@ -46,11 +46,13 @@
         </div><div class="wy-menu wy-menu-vertical" data-spy="affix" role="navigation" aria-label="Navigation menu">
               <p class="caption" role="heading"><span class="caption-text">Contents:</span></p>
 <ul class="current">
+<li class="toctree-l1"><a class="reference internal" href="README.html">a2ihelper</a></li>
 <li class="toctree-l1 current"><a class="reference internal" href="modules.html">src</a><ul class="current">
 <li class="toctree-l2 current"><a class="current reference internal" href="#">a2ihelper package</a><ul>
 <li class="toctree-l3"><a class="reference internal" href="#submodules">Submodules</a></li>
 <li class="toctree-l3"><a class="reference internal" href="#module-a2ihelper.call_reditools2">a2ihelper.call_reditools2 module</a><ul>
 <li class="toctree-l4"><a class="reference internal" href="#a2ihelper.call_reditools2.get_genes_positions"><code class="docutils literal notranslate"><span class="pre">get_genes_positions()</span></code></a></li>
+<li class="toctree-l4"><a class="reference internal" href="#a2ihelper.call_reditools2.get_utr_genes_positions"><code class="docutils literal notranslate"><span class="pre">get_utr_genes_positions()</span></code></a></li>
 <li class="toctree-l4"><a class="reference internal" href="#a2ihelper.call_reditools2.indexing_ref"><code class="docutils literal notranslate"><span class="pre">indexing_ref()</span></code></a></li>
 <li class="toctree-l4"><a class="reference internal" href="#a2ihelper.call_reditools2.run_per_gene_position"><code class="docutils literal notranslate"><span class="pre">run_per_gene_position()</span></code></a></li>
 <li class="toctree-l4"><a class="reference internal" href="#a2ihelper.call_reditools2.run_per_gene_position_list"><code class="docutils literal notranslate"><span class="pre">run_per_gene_position_list()</span></code></a></li>
@@ -66,11 +68,15 @@
 <li class="toctree-l4"><a class="reference internal" href="#a2ihelper.editing.chi2_test"><code class="docutils literal notranslate"><span class="pre">chi2_test()</span></code></a></li>
 <li class="toctree-l4"><a class="reference internal" href="#a2ihelper.editing.filter_gtest"><code class="docutils literal notranslate"><span class="pre">filter_gtest()</span></code></a></li>
 <li class="toctree-l4"><a class="reference internal" href="#a2ihelper.editing.filter_positions"><code class="docutils literal notranslate"><span class="pre">filter_positions()</span></code></a></li>
+<li class="toctree-l4"><a class="reference internal" href="#a2ihelper.editing.filter_snps"><code class="docutils literal notranslate"><span class="pre">filter_snps()</span></code></a></li>
 <li class="toctree-l4"><a class="reference internal" href="#a2ihelper.editing.fisher_test"><code class="docutils literal notranslate"><span class="pre">fisher_test()</span></code></a></li>
 <li class="toctree-l4"><a class="reference internal" href="#a2ihelper.editing.independency_gtest"><code class="docutils literal notranslate"><span class="pre">independency_gtest()</span></code></a></li>
-<li class="toctree-l4"><a class="reference internal" href="#a2ihelper.editing.merge_files"><code class="docutils literal notranslate"><span class="pre">merge_files()</span></code></a></li>
-<li class="toctree-l4"><a class="reference internal" href="#a2ihelper.editing.merge_utr"><code class="docutils literal notranslate"><span class="pre">merge_utr()</span></code></a></li>
+<li class="toctree-l4"><a class="reference internal" href="#a2ihelper.editing.kruskal_dunn_test"><code class="docutils literal notranslate"><span class="pre">kruskal_dunn_test()</span></code></a></li>
+<li class="toctree-l4"><a class="reference internal" href="#a2ihelper.editing.merge_files_all_regions"><code class="docutils literal notranslate"><span class="pre">merge_files_all_regions()</span></code></a></li>
+<li class="toctree-l4"><a class="reference internal" href="#a2ihelper.editing.merge_files_one_region"><code class="docutils literal notranslate"><span class="pre">merge_files_one_region()</span></code></a></li>
+<li class="toctree-l4"><a class="reference internal" href="#a2ihelper.editing.odds_r"><code class="docutils literal notranslate"><span class="pre">odds_r()</span></code></a></li>
 <li class="toctree-l4"><a class="reference internal" href="#a2ihelper.editing.pool_positions"><code class="docutils literal notranslate"><span class="pre">pool_positions()</span></code></a></li>
+<li class="toctree-l4"><a class="reference internal" href="#a2ihelper.editing.wilcox_test"><code class="docutils literal notranslate"><span class="pre">wilcox_test()</span></code></a></li>
 </ul>
 </li>
 <li class="toctree-l3"><a class="reference internal" href="#module-a2ihelper.feat_selection">a2ihelper.feat_selection module</a><ul>
@@ -81,7 +87,9 @@
 </ul>
 </li>
 <li class="toctree-l3"><a class="reference internal" href="#module-a2ihelper.plot">a2ihelper.plot module</a><ul>
+<li class="toctree-l4"><a class="reference internal" href="#a2ihelper.plot.boxplot"><code class="docutils literal notranslate"><span class="pre">boxplot()</span></code></a></li>
 <li class="toctree-l4"><a class="reference internal" href="#a2ihelper.plot.confidence_ellipse"><code class="docutils literal notranslate"><span class="pre">confidence_ellipse()</span></code></a></li>
+<li class="toctree-l4"><a class="reference internal" href="#a2ihelper.plot.manhattanplot"><code class="docutils literal notranslate"><span class="pre">manhattanplot()</span></code></a></li>
 <li class="toctree-l4"><a class="reference internal" href="#a2ihelper.plot.pca"><code class="docutils literal notranslate"><span class="pre">pca()</span></code></a></li>
 <li class="toctree-l4"><a class="reference internal" href="#a2ihelper.plot.tsne"><code class="docutils literal notranslate"><span class="pre">tsne()</span></code></a></li>
 <li class="toctree-l4"><a class="reference internal" href="#a2ihelper.plot.volcanoplot"><code class="docutils literal notranslate"><span class="pre">volcanoplot()</span></code></a></li>
@@ -133,7 +141,29 @@
 <span id="a2ihelper-call-reditools2-module"></span><h2>a2ihelper.call_reditools2 module<a class="headerlink" href="#module-a2ihelper.call_reditools2" title="Permalink to this heading"></a></h2>
 <dl class="py function">
 <dt class="sig sig-object py" id="a2ihelper.call_reditools2.get_genes_positions">
-<span class="sig-prename descclassname"><span class="pre">a2ihelper.call_reditools2.</span></span><span class="sig-name descname"><span class="pre">get_genes_positions</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">genes</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">path_ref_annotation</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">gzip_file</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">True</span></span></em><span class="sig-paren">)</span> <span class="sig-return"><span class="sig-return-icon">&#x2192;</span> <span class="sig-return-typehint"><span class="pre">list</span></span></span><a class="headerlink" href="#a2ihelper.call_reditools2.get_genes_positions" title="Permalink to this definition"></a></dt>
+<span class="sig-prename descclassname"><span class="pre">a2ihelper.call_reditools2.</span></span><span class="sig-name descname"><span class="pre">get_genes_positions</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">genes</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">list</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">path_ref_annotation</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">str</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">gzip_file</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">bool</span></span><span class="w"> </span><span class="o"><span class="pre">=</span></span><span class="w"> </span><span class="default_value"><span class="pre">False</span></span></em><span class="sig-paren">)</span> <span class="sig-return"><span class="sig-return-icon">&#x2192;</span> <span class="sig-return-typehint"><span class="pre">list</span></span></span><a class="headerlink" href="#a2ihelper.call_reditools2.get_genes_positions" title="Permalink to this definition"></a></dt>
+<dd><p>Return the coordinates of a gene symbol from a GTF file. It can be used as input to run_per_gene_position_list.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters<span class="colon">:</span></dt>
+<dd class="field-odd"><dl class="simple">
+<dt><strong>genes: list</strong></dt><dd><p>list of genes to get coordinates</p>
+</dd>
+<dt><strong>path_ref_annotation: str</strong></dt><dd><p>full reference GTF file path.</p>
+</dd>
+</dl>
+</dd>
+<dt class="field-even">Returns<span class="colon">:</span></dt>
+<dd class="field-even"><dl class="simple">
+<dt>dict</dt><dd><p>a dict of coordinates of each gene symbol (chr:start-end).</p>
+</dd>
+</dl>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="py function">
+<dt class="sig sig-object py" id="a2ihelper.call_reditools2.get_utr_genes_positions">
+<span class="sig-prename descclassname"><span class="pre">a2ihelper.call_reditools2.</span></span><span class="sig-name descname"><span class="pre">get_utr_genes_positions</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">genes</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">list</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">path_ref_annotation</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">str</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">gzip_file</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">bool</span></span><span class="w"> </span><span class="o"><span class="pre">=</span></span><span class="w"> </span><span class="default_value"><span class="pre">False</span></span></em><span class="sig-paren">)</span> <span class="sig-return"><span class="sig-return-icon">&#x2192;</span> <span class="sig-return-typehint"><span class="pre">list</span></span></span><a class="headerlink" href="#a2ihelper.call_reditools2.get_utr_genes_positions" title="Permalink to this definition"></a></dt>
 <dd><p>Return the coordinates of a gene symbol from a GTF file. It can be used as input to run_per_gene_position_list.</p>
 <dl class="field-list simple">
 <dt class="field-odd">Parameters<span class="colon">:</span></dt>
@@ -191,7 +221,7 @@ Example: ‘chr2:122147686-122153083’. One can get the coordinates from gene s
 
 <dl class="py function">
 <dt class="sig sig-object py" id="a2ihelper.call_reditools2.run_per_gene_position_list">
-<span class="sig-prename descclassname"><span class="pre">a2ihelper.call_reditools2.</span></span><span class="sig-name descname"><span class="pre">run_per_gene_position_list</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">genes_positions</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">list</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">in_bam_file</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">str</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">path_out_res</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">str</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">ref_genome_file</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">str</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">path_reditools</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">str</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">reditools_options</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">str</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">n_jobs</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">4</span></span></em><span class="sig-paren">)</span> <span class="sig-return"><span class="sig-return-icon">&#x2192;</span> <span class="sig-return-typehint"><span class="pre">None</span></span></span><a class="headerlink" href="#a2ihelper.call_reditools2.run_per_gene_position_list" title="Permalink to this definition"></a></dt>
+<span class="sig-prename descclassname"><span class="pre">a2ihelper.call_reditools2.</span></span><span class="sig-name descname"><span class="pre">run_per_gene_position_list</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">genes_positions</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">list</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">in_bam_file</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">str</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">path_out_res</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">str</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">ref_genome_file</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">str</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">path_reditools</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">str</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">reditools_options</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">str</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">n_jobs</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">int</span></span><span class="w"> </span><span class="o"><span class="pre">=</span></span><span class="w"> </span><span class="default_value"><span class="pre">4</span></span></em><span class="sig-paren">)</span> <span class="sig-return"><span class="sig-return-icon">&#x2192;</span> <span class="sig-return-typehint"><span class="pre">None</span></span></span><a class="headerlink" href="#a2ihelper.call_reditools2.run_per_gene_position_list" title="Permalink to this definition"></a></dt>
 <dd><p>Run run_per_gene_position for a list of gense coordinates (genes_positions)</p>
 <dl class="field-list simple">
 <dt class="field-odd">Parameters<span class="colon">:</span></dt>
@@ -311,7 +341,7 @@ One can get the coordinates from gene symbol using get_genes_positions function.
 <span id="a2ihelper-editing-module"></span><h2>a2ihelper.editing module<a class="headerlink" href="#module-a2ihelper.editing" title="Permalink to this heading"></a></h2>
 <dl class="py function">
 <dt class="sig sig-object py" id="a2ihelper.editing.anova_tukey_test">
-<span class="sig-prename descclassname"><span class="pre">a2ihelper.editing.</span></span><span class="sig-name descname"><span class="pre">anova_tukey_test</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">df</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">only_pvalue</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">True</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">return_only_significant</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">True</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">pvalue_filter_limit</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">0.05</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#a2ihelper.editing.anova_tukey_test" title="Permalink to this definition"></a></dt>
+<span class="sig-prename descclassname"><span class="pre">a2ihelper.editing.</span></span><span class="sig-name descname"><span class="pre">anova_tukey_test</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">df</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">only_pvalue</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">bool</span></span><span class="w"> </span><span class="o"><span class="pre">=</span></span><span class="w"> </span><span class="default_value"><span class="pre">True</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">pvalue_filter_limit_anova</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">float</span></span><span class="w"> </span><span class="o"><span class="pre">=</span></span><span class="w"> </span><span class="default_value"><span class="pre">0.05</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">pvalue_filter_limit_tukey</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">float</span></span><span class="w"> </span><span class="o"><span class="pre">=</span></span><span class="w"> </span><span class="default_value"><span class="pre">0.05</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">return_only_significant</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">bool</span></span><span class="w"> </span><span class="o"><span class="pre">=</span></span><span class="w"> </span><span class="default_value"><span class="pre">True</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#a2ihelper.editing.anova_tukey_test" title="Permalink to this definition"></a></dt>
 <dd><p># Need to test in more than two conditions and to return a dataframe
 Anova with post-hoc test for more than two conditions.</p>
 <dl class="field-list simple">
@@ -396,6 +426,11 @@ Anova with post-hoc test for more than two conditions.</p>
 </dd></dl>
 
 <dl class="py function">
+<dt class="sig sig-object py" id="a2ihelper.editing.filter_snps">
+<span class="sig-prename descclassname"><span class="pre">a2ihelper.editing.</span></span><span class="sig-name descname"><span class="pre">filter_snps</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">df</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">vcf_file</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">''</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#a2ihelper.editing.filter_snps" title="Permalink to this definition"></a></dt>
+<dd></dd></dl>
+
+<dl class="py function">
 <dt class="sig sig-object py" id="a2ihelper.editing.fisher_test">
 <span class="sig-prename descclassname"><span class="pre">a2ihelper.editing.</span></span><span class="sig-name descname"><span class="pre">fisher_test</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">df_a</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">df_g</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">only_pvalue</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">True</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">return_only_significant</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">True</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">pvalue_filter_limit</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">0.05</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#a2ihelper.editing.fisher_test" title="Permalink to this definition"></a></dt>
 <dd></dd></dl>
@@ -425,18 +460,70 @@ Anova with post-hoc test for more than two conditions.</p>
 </dd></dl>
 
 <dl class="py function">
-<dt class="sig sig-object py" id="a2ihelper.editing.merge_files">
-<span class="sig-prename descclassname"><span class="pre">a2ihelper.editing.</span></span><span class="sig-name descname"><span class="pre">merge_files</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">meta</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#a2ihelper.editing.merge_files" title="Permalink to this definition"></a></dt>
-<dd><p>Merge all RES files (output of REDItools2) in three pandas DataFrames of frequency or count per position.
+<dt class="sig sig-object py" id="a2ihelper.editing.kruskal_dunn_test">
+<span class="sig-prename descclassname"><span class="pre">a2ihelper.editing.</span></span><span class="sig-name descname"><span class="pre">kruskal_dunn_test</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">df</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">only_pvalue</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">bool</span></span><span class="w"> </span><span class="o"><span class="pre">=</span></span><span class="w"> </span><span class="default_value"><span class="pre">True</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">pvalue_filter_limit_kruskal</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">float</span></span><span class="w"> </span><span class="o"><span class="pre">=</span></span><span class="w"> </span><span class="default_value"><span class="pre">0.05</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">pvalue_filter_limit_dunn</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">float</span></span><span class="w"> </span><span class="o"><span class="pre">=</span></span><span class="w"> </span><span class="default_value"><span class="pre">0.05</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">return_only_significant</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">bool</span></span><span class="w"> </span><span class="o"><span class="pre">=</span></span><span class="w"> </span><span class="default_value"><span class="pre">True</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">p_adjust</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">Optional</span><span class="p"><span class="pre">[</span></span><span class="pre">str</span><span class="p"><span class="pre">]</span></span></span><span class="w"> </span><span class="o"><span class="pre">=</span></span><span class="w"> </span><span class="default_value"><span class="pre">None</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#a2ihelper.editing.kruskal_dunn_test" title="Permalink to this definition"></a></dt>
+<dd><p># Still NEED to test in more than two conditions and to return a dataframe
+Kruskal-Wallis with post-hoc test for more than two conditions.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters<span class="colon">:</span></dt>
+<dd class="field-odd"><dl class="simple">
+<dt><strong>df: df</strong></dt><dd><p>pandas DataFrame of editing frequency. Rows are samples and columns are coordinates. The DataFrame must be like merge_files output. The last two columns must be region and conditions.</p>
+</dd>
+</dl>
+</dd>
+<dt class="field-even">Returns<span class="colon">:</span></dt>
+<dd class="field-even"><dl class="simple">
+<dt>DataFrame</dt><dd><p>returns p-values for Anova post-hoc test.</p>
+</dd>
+</dl>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="py function">
+<dt class="sig sig-object py" id="a2ihelper.editing.merge_files_all_regions">
+<span class="sig-prename descclassname"><span class="pre">a2ihelper.editing.</span></span><span class="sig-name descname"><span class="pre">merge_files_all_regions</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">meta</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#a2ihelper.editing.merge_files_all_regions" title="Permalink to this definition"></a></dt>
+<dd><p>Merge all RES files for ALL regions (output of REDItools2) in three pandas DataFrames of frequency or count per position.
 The first DataFrame is the frequency of editing (A-G or T-C). The Second DataFrame is the count of A (or T) per position. And the last one is the count of G (or C) per postion.</p>
 <dl class="field-list simple">
 <dt class="field-odd">Parameters<span class="colon">:</span></dt>
 <dd class="field-odd"><dl class="simple">
 <dt><strong>meta: df</strong></dt><dd><dl class="simple">
-<dt>A pandas DataFrame with metadata information. The first four columns are mandatory</dt><dd><p>First: Full path file names of REDItools2 results tables
+<dt>A pandas DataFrame with metadata information for ALL regions of interest. The first four columns are mandatory</dt><dd><p>First: Full path file names of REDItools2 results tables
+Second: Samples names
+Third: regions (genes symbol)
+Fourth: conditions</p>
+</dd>
+</dl>
+</dd>
+</dl>
+</dd>
+<dt class="field-even">Returns<span class="colon">:</span></dt>
+<dd class="field-even"><dl class="simple">
+<dt>tuple</dt><dd><p>a tuple of three pandas DataFrames (df, df_a, df_g).
+df: frequency of editing
+df_a: counts of A or T
+df_g: counts of G or C
+region_list: list of non-empty regions</p>
+</dd>
+</dl>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="py function">
+<dt class="sig sig-object py" id="a2ihelper.editing.merge_files_one_region">
+<span class="sig-prename descclassname"><span class="pre">a2ihelper.editing.</span></span><span class="sig-name descname"><span class="pre">merge_files_one_region</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">meta</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#a2ihelper.editing.merge_files_one_region" title="Permalink to this definition"></a></dt>
+<dd><p>Merge all RES files for the same and UNIQUE region (output of REDItools2) in three pandas DataFrames of frequency or count per position.
+The first DataFrame is the frequency of editing (A-G or T-C). The Second DataFrame is the count of A (or T) per position. And the last one is the count of G (or C) per postion.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters<span class="colon">:</span></dt>
+<dd class="field-odd"><dl class="simple">
+<dt><strong>meta: df</strong></dt><dd><dl class="simple">
+<dt>A pandas DataFrame with metadata information for UNIQUE region. The first four columns are mandatory</dt><dd><p>First: Full path file names of REDItools2 results tables
 Second: Samples names
 Third: region (gene symbol)
-Fourth: condition</p>
+Fourth: conditions</p>
 </dd>
 </dl>
 </dd>
@@ -455,8 +542,8 @@ df_g: counts of G or C</p>
 </dd></dl>
 
 <dl class="py function">
-<dt class="sig sig-object py" id="a2ihelper.editing.merge_utr">
-<span class="sig-prename descclassname"><span class="pre">a2ihelper.editing.</span></span><span class="sig-name descname"><span class="pre">merge_utr</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">res</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">utr</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#a2ihelper.editing.merge_utr" title="Permalink to this definition"></a></dt>
+<dt class="sig sig-object py" id="a2ihelper.editing.odds_r">
+<span class="sig-prename descclassname"><span class="pre">a2ihelper.editing.</span></span><span class="sig-name descname"><span class="pre">odds_r</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">df_a</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">df_g</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#a2ihelper.editing.odds_r" title="Permalink to this definition"></a></dt>
 <dd></dd></dl>
 
 <dl class="py function">
@@ -487,6 +574,11 @@ df_g: counts of G or C</p>
 </dl>
 </dd></dl>
 
+<dl class="py function">
+<dt class="sig sig-object py" id="a2ihelper.editing.wilcox_test">
+<span class="sig-prename descclassname"><span class="pre">a2ihelper.editing.</span></span><span class="sig-name descname"><span class="pre">wilcox_test</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">df</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">only_pvalue</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">bool</span></span><span class="w"> </span><span class="o"><span class="pre">=</span></span><span class="w"> </span><span class="default_value"><span class="pre">True</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">pvalue_filter_limit_wilcox</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">float</span></span><span class="w"> </span><span class="o"><span class="pre">=</span></span><span class="w"> </span><span class="default_value"><span class="pre">0.05</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">return_only_significant</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">bool</span></span><span class="w"> </span><span class="o"><span class="pre">=</span></span><span class="w"> </span><span class="default_value"><span class="pre">True</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#a2ihelper.editing.wilcox_test" title="Permalink to this definition"></a></dt>
+<dd></dd></dl>
+
 </section>
 <section id="module-a2ihelper.feat_selection">
 <span id="a2ihelper-feat-selection-module"></span><h2>a2ihelper.feat_selection module<a class="headerlink" href="#module-a2ihelper.feat_selection" title="Permalink to this heading"></a></h2>
@@ -514,6 +606,11 @@ df_g: counts of G or C</p>
 <section id="module-a2ihelper.plot">
 <span id="a2ihelper-plot-module"></span><h2>a2ihelper.plot module<a class="headerlink" href="#module-a2ihelper.plot" title="Permalink to this heading"></a></h2>
 <dl class="py function">
+<dt class="sig sig-object py" id="a2ihelper.plot.boxplot">
+<span class="sig-prename descclassname"><span class="pre">a2ihelper.plot.</span></span><span class="sig-name descname"><span class="pre">boxplot</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">df</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">positions_to_plot</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">Optional</span><span class="p"><span class="pre">[</span></span><span class="pre">list</span><span class="p"><span class="pre">]</span></span></span><span class="w"> </span><span class="o"><span class="pre">=</span></span><span class="w"> </span><span class="default_value"><span class="pre">None</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">ax</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">None</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">figsize</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">Optional</span><span class="p"><span class="pre">[</span></span><span class="pre">tuple</span><span class="p"><span class="pre">]</span></span></span><span class="w"> </span><span class="o"><span class="pre">=</span></span><span class="w"> </span><span class="default_value"><span class="pre">None</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#a2ihelper.plot.boxplot" title="Permalink to this definition"></a></dt>
+<dd></dd></dl>
+
+<dl class="py function">
 <dt class="sig sig-object py" id="a2ihelper.plot.confidence_ellipse">
 <span class="sig-prename descclassname"><span class="pre">a2ihelper.plot.</span></span><span class="sig-name descname"><span class="pre">confidence_ellipse</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">x</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">y</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">ax</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">n_std</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">3.0</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">facecolor</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">'none'</span></span></em>, <em class="sig-param"><span class="o"><span class="pre">**</span></span><span class="n"><span class="pre">kwargs</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#a2ihelper.plot.confidence_ellipse" title="Permalink to this definition"></a></dt>
 <dd><p>Create a plot of the covariance confidence ellipse of <em>x</em> and <em>y</em>.</p>
@@ -537,6 +634,11 @@ df_g: counts of G or C</p>
 </dd>
 </dl>
 </dd></dl>
+
+<dl class="py function">
+<dt class="sig sig-object py" id="a2ihelper.plot.manhattanplot">
+<span class="sig-prename descclassname"><span class="pre">a2ihelper.plot.</span></span><span class="sig-name descname"><span class="pre">manhattanplot</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">df_or</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">df_pv</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">p_value_line</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">Optional</span><span class="p"><span class="pre">[</span></span><span class="pre">float</span><span class="p"><span class="pre">]</span></span></span><span class="w"> </span><span class="o"><span class="pre">=</span></span><span class="w"> </span><span class="default_value"><span class="pre">None</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">ax</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">None</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">figsize</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">Optional</span><span class="p"><span class="pre">[</span></span><span class="pre">tuple</span><span class="p"><span class="pre">]</span></span></span><span class="w"> </span><span class="o"><span class="pre">=</span></span><span class="w"> </span><span class="default_value"><span class="pre">None</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#a2ihelper.plot.manhattanplot" title="Permalink to this definition"></a></dt>
+<dd></dd></dl>
 
 <dl class="py function">
 <dt class="sig sig-object py" id="a2ihelper.plot.pca">

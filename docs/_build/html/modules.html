@@ -23,7 +23,7 @@
     <link rel="index" title="Index" href="genindex.html" />
     <link rel="search" title="Search" href="search.html" />
     <link rel="next" title="a2ihelper package" href="a2ihelper.html" />
-    <link rel="prev" title="Welcome to a2iHelperPy’s documentation!" href="index.html" /> 
+    <link rel="prev" title="a2ihelper" href="README.html" /> 
 </head>
 
 <body class="wy-body-for-nav"> 
@@ -47,6 +47,7 @@
         </div><div class="wy-menu wy-menu-vertical" data-spy="affix" role="navigation" aria-label="Navigation menu">
               <p class="caption" role="heading"><span class="caption-text">Contents:</span></p>
 <ul class="current">
+<li class="toctree-l1"><a class="reference internal" href="README.html">a2ihelper</a></li>
 <li class="toctree-l1 current"><a class="current reference internal" href="#">src</a><ul>
 <li class="toctree-l2"><a class="reference internal" href="a2ihelper.html">a2ihelper package</a></li>
 </ul>
@@ -85,6 +86,7 @@
 <li class="toctree-l2"><a class="reference internal" href="a2ihelper.html#submodules">Submodules</a></li>
 <li class="toctree-l2"><a class="reference internal" href="a2ihelper.html#module-a2ihelper.call_reditools2">a2ihelper.call_reditools2 module</a><ul>
 <li class="toctree-l3"><a class="reference internal" href="a2ihelper.html#a2ihelper.call_reditools2.get_genes_positions"><code class="docutils literal notranslate"><span class="pre">get_genes_positions()</span></code></a></li>
+<li class="toctree-l3"><a class="reference internal" href="a2ihelper.html#a2ihelper.call_reditools2.get_utr_genes_positions"><code class="docutils literal notranslate"><span class="pre">get_utr_genes_positions()</span></code></a></li>
 <li class="toctree-l3"><a class="reference internal" href="a2ihelper.html#a2ihelper.call_reditools2.indexing_ref"><code class="docutils literal notranslate"><span class="pre">indexing_ref()</span></code></a></li>
 <li class="toctree-l3"><a class="reference internal" href="a2ihelper.html#a2ihelper.call_reditools2.run_per_gene_position"><code class="docutils literal notranslate"><span class="pre">run_per_gene_position()</span></code></a></li>
 <li class="toctree-l3"><a class="reference internal" href="a2ihelper.html#a2ihelper.call_reditools2.run_per_gene_position_list"><code class="docutils literal notranslate"><span class="pre">run_per_gene_position_list()</span></code></a></li>
@@ -108,11 +110,15 @@
 <li class="toctree-l3"><a class="reference internal" href="a2ihelper.html#a2ihelper.editing.chi2_test"><code class="docutils literal notranslate"><span class="pre">chi2_test()</span></code></a></li>
 <li class="toctree-l3"><a class="reference internal" href="a2ihelper.html#a2ihelper.editing.filter_gtest"><code class="docutils literal notranslate"><span class="pre">filter_gtest()</span></code></a></li>
 <li class="toctree-l3"><a class="reference internal" href="a2ihelper.html#a2ihelper.editing.filter_positions"><code class="docutils literal notranslate"><span class="pre">filter_positions()</span></code></a></li>
+<li class="toctree-l3"><a class="reference internal" href="a2ihelper.html#a2ihelper.editing.filter_snps"><code class="docutils literal notranslate"><span class="pre">filter_snps()</span></code></a></li>
 <li class="toctree-l3"><a class="reference internal" href="a2ihelper.html#a2ihelper.editing.fisher_test"><code class="docutils literal notranslate"><span class="pre">fisher_test()</span></code></a></li>
 <li class="toctree-l3"><a class="reference internal" href="a2ihelper.html#a2ihelper.editing.independency_gtest"><code class="docutils literal notranslate"><span class="pre">independency_gtest()</span></code></a></li>
-<li class="toctree-l3"><a class="reference internal" href="a2ihelper.html#a2ihelper.editing.merge_files"><code class="docutils literal notranslate"><span class="pre">merge_files()</span></code></a></li>
-<li class="toctree-l3"><a class="reference internal" href="a2ihelper.html#a2ihelper.editing.merge_utr"><code class="docutils literal notranslate"><span class="pre">merge_utr()</span></code></a></li>
+<li class="toctree-l3"><a class="reference internal" href="a2ihelper.html#a2ihelper.editing.kruskal_dunn_test"><code class="docutils literal notranslate"><span class="pre">kruskal_dunn_test()</span></code></a></li>
+<li class="toctree-l3"><a class="reference internal" href="a2ihelper.html#a2ihelper.editing.merge_files_all_regions"><code class="docutils literal notranslate"><span class="pre">merge_files_all_regions()</span></code></a></li>
+<li class="toctree-l3"><a class="reference internal" href="a2ihelper.html#a2ihelper.editing.merge_files_one_region"><code class="docutils literal notranslate"><span class="pre">merge_files_one_region()</span></code></a></li>
+<li class="toctree-l3"><a class="reference internal" href="a2ihelper.html#a2ihelper.editing.odds_r"><code class="docutils literal notranslate"><span class="pre">odds_r()</span></code></a></li>
 <li class="toctree-l3"><a class="reference internal" href="a2ihelper.html#a2ihelper.editing.pool_positions"><code class="docutils literal notranslate"><span class="pre">pool_positions()</span></code></a></li>
+<li class="toctree-l3"><a class="reference internal" href="a2ihelper.html#a2ihelper.editing.wilcox_test"><code class="docutils literal notranslate"><span class="pre">wilcox_test()</span></code></a></li>
 </ul>
 </li>
 <li class="toctree-l2"><a class="reference internal" href="a2ihelper.html#module-a2ihelper.feat_selection">a2ihelper.feat_selection module</a><ul>
@@ -123,7 +129,9 @@
 </ul>
 </li>
 <li class="toctree-l2"><a class="reference internal" href="a2ihelper.html#module-a2ihelper.plot">a2ihelper.plot module</a><ul>
+<li class="toctree-l3"><a class="reference internal" href="a2ihelper.html#a2ihelper.plot.boxplot"><code class="docutils literal notranslate"><span class="pre">boxplot()</span></code></a></li>
 <li class="toctree-l3"><a class="reference internal" href="a2ihelper.html#a2ihelper.plot.confidence_ellipse"><code class="docutils literal notranslate"><span class="pre">confidence_ellipse()</span></code></a></li>
+<li class="toctree-l3"><a class="reference internal" href="a2ihelper.html#a2ihelper.plot.manhattanplot"><code class="docutils literal notranslate"><span class="pre">manhattanplot()</span></code></a></li>
 <li class="toctree-l3"><a class="reference internal" href="a2ihelper.html#a2ihelper.plot.pca"><code class="docutils literal notranslate"><span class="pre">pca()</span></code></a></li>
 <li class="toctree-l3"><a class="reference internal" href="a2ihelper.html#a2ihelper.plot.tsne"><code class="docutils literal notranslate"><span class="pre">tsne()</span></code></a></li>
 <li class="toctree-l3"><a class="reference internal" href="a2ihelper.html#a2ihelper.plot.volcanoplot"><code class="docutils literal notranslate"><span class="pre">volcanoplot()</span></code></a></li>
@@ -145,7 +153,7 @@
            </div>
           </div>
           <footer><div class="rst-footer-buttons" role="navigation" aria-label="Footer">
-        <a href="index.html" class="btn btn-neutral float-left" title="Welcome to a2iHelperPy’s documentation!" accesskey="p" rel="prev"><span class="fa fa-arrow-circle-left" aria-hidden="true"></span> Previous</a>
+        <a href="README.html" class="btn btn-neutral float-left" title="a2ihelper" accesskey="p" rel="prev"><span class="fa fa-arrow-circle-left" aria-hidden="true"></span> Previous</a>
         <a href="a2ihelper.html" class="btn btn-neutral float-right" title="a2ihelper package" accesskey="n" rel="next">Next <span class="fa fa-arrow-circle-right" aria-hidden="true"></span></a>
     </div>
 
