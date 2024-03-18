@@ -3,11 +3,11 @@
 
 import itertools
 import warnings
-import pandas as pd
-import numpy as np
-from scipy.stats import chi2_contingency, fisher_exact, f_oneway, tukey_hsd, kruskal
-from scipy.stats.contingency import odds_ratio
-import scikit_posthocs as sp
+# import pandas as pd
+# import numpy as np
+# from scipy.stats import chi2_contingency, fisher_exact, f_oneway, tukey_hsd, kruskal
+# from scipy.stats.contingency import odds_ratio
+# import scikit_posthocs as sp
 
 def merge_files_one_region(meta):
     """
@@ -80,7 +80,7 @@ def merge_files_one_region(meta):
         df_g = df_g.T.merge(meta.iloc[:,[1,2,3]].drop_duplicates().set_index(meta.columns[1]), left_index=True, right_index=True)
         return df, df_a, df_g
 
-def merge_files(meta):
+def merge_files_all_regions(meta):
     """
     Merge all RES files for ALL regions (output of REDItools2) in three pandas DataFrames of frequency or count per position.
     The first DataFrame is the frequency of editing (A-G or T-C). The Second DataFrame is the count of A (or T) per position. And the last one is the count of G (or C) per postion.
@@ -368,7 +368,7 @@ def anova_tukey_test(df, only_pvalue:bool = True, pvalue_filter_limit_anova:floa
 
 def kruskal_dunn_test(df, only_pvalue:bool = True, pvalue_filter_limit_kruskal:float = 0.05, pvalue_filter_limit_dunn:float = 0.05, return_only_significant:bool = True, p_adjust:str = None):
     """
-    # Need to test in more than two conditions and to return a dataframe
+    # Still NEED to test in more than two conditions and to return a dataframe
     Kruskal-Wallis with post-hoc test for more than two conditions.
 
     Parameters
