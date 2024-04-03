@@ -1,14 +1,41 @@
 a2ihelper
 =========
 
-**a2ihelper** is a Python library for downstream analysis of A-to-I editing. It is build under Python 3.10 to analyze statistics `REDItools2 <https://github.com/BioinfoUNIBA/REDItools2>`_ output files.
+**a2ihelper** is a Python library for downstream analysis of A-to-I editing. It is build under Python 3.10.13 to analyze statistics `REDItools2 <https://github.com/BioinfoUNIBA/REDItools2>`_ output files.
 It is possible to analyze frequency or proportional data. The principal statistics tests used in 68 papers are included in a2iHelperPy.
+
+Requirements
+------------
+
+  - numpy (version >= 1.26.4)
+  - pandas (version >= 2.2.0)
+  - scipy (version >= 1.12.0)
+  - scikit-posthocs (version >= 0.9.0)
+
+
+  - **Optional plot:**
+
+    - matplotlib (version >= 3.8.3)
+    - seaborn (version >= 0.13.2)
+
+
+  - **Optionals Editing detection:**
+
+    - reditools (version = 2.0)
+    - pysam (versoin >= 0.22.0)
+    - sortedcontainers (version >= 2.4.0)
+    - psutil (version >= 5.9.8)
+    - netifaces (version >= 0.11.0)
 
 Installing
 ----------
+We recommend use pip to install the package
+
 .. code-block:: bash
 
    pip install a2ihelper
+
+But you can also use the git clone and install via setup.py
 
 Quickstart
 ----------
@@ -18,6 +45,8 @@ You need:
   - List of genes or coordinates of interest.
 
 **Get coordinates from list of genes:**
+
+You need to inform a list of genes that you want to get the coordinates and the GTF annotated path file (Make sure to set ``gzip_file=True`` if the file is "gzipped"). It is important to use the same file used to mapping.
 
 .. code-block:: python
 
@@ -69,3 +98,66 @@ The function *merge_files_one_region()* returns three DataFrames. First is the f
    df, df_a, df_g, region_list = a2i.editing.merge_files_all_regions(meta)
 
 The function *merge_files_all_regions()* returns three DataFrames and one list with the sequence of genes counts. First DataFrame is the frequency of editing, second is the Adenine counts and the third the Guanine (Inosine) counts.
+
+**Statistics for FREQUENCY**
+
+*Mann-Whitney U test*
+
+.. code-block:: python
+
+   df_pv = a2i.editing.mannwhitney_test(df,
+                                        only_pvalue=True,
+                                        pvalue_filter_limit=0.05,
+                                        fdr_correction=True,
+                                        fdr_filter_limit=0.05,
+                                        return_only_significant=True)
+
+*ANOVA Tukey*
+
+.. code-block:: python
+
+   df_pv = a2i.editing.anova_tukey_test(df,
+                                        only_pvalue=True,
+                                        pvalue_filter_limit_anova=0.05,
+                                        pvalue_filter_limit_tukey=0.05,
+                                        return_only_significant=True)
+
+*Kruskal Dunn*
+
+.. code-block:: python
+
+   df_pv = a2i.editing.kruskal_dunn_test(df,
+                                         only_pvalue=True,
+                                         pvalue_filter_limit_kruskal=0.05,
+                                         pvalue_filter_limit_dunn=0.05,
+                                         return_only_significant=True)
+
+**Statistics for PROPORTION**
+
+*Pooling replicates*
+
+May you need to pool the replicates to perform a chi-square or fisher tests. To do that you can use the ``pool_positions()`` to sum the coordinates by independecy G-test.
+
+.. code-block:: python
+
+   a, g = a2i.editing.pool_positions(df_a,
+                                     df_g,
+                                     pvalue_filter_limit=0.05,
+                                     gtest_filter_limit=0,
+                                     bh_correction=False)
+
+*Chi-square test*
+
+.. code-block:: python
+
+   chi = a2i.editing.chi2_test(a, g,
+                               only_pvalue=True,
+                               pvalue_filter_limit=0.05)
+
+*Fisher test*
+
+.. code-block:: python
+
+   fis = a2i.editing.fisher_test(a, g,
+                                 only_pvalue=True,
+                                 pvalue_filter_limit=.05)

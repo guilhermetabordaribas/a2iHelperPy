@@ -72,11 +72,11 @@
 <li class="toctree-l4"><a class="reference internal" href="#a2ihelper.editing.fisher_test"><code class="docutils literal notranslate"><span class="pre">fisher_test()</span></code></a></li>
 <li class="toctree-l4"><a class="reference internal" href="#a2ihelper.editing.independency_gtest"><code class="docutils literal notranslate"><span class="pre">independency_gtest()</span></code></a></li>
 <li class="toctree-l4"><a class="reference internal" href="#a2ihelper.editing.kruskal_dunn_test"><code class="docutils literal notranslate"><span class="pre">kruskal_dunn_test()</span></code></a></li>
+<li class="toctree-l4"><a class="reference internal" href="#a2ihelper.editing.mannwhitney_test"><code class="docutils literal notranslate"><span class="pre">mannwhitney_test()</span></code></a></li>
 <li class="toctree-l4"><a class="reference internal" href="#a2ihelper.editing.merge_files_all_regions"><code class="docutils literal notranslate"><span class="pre">merge_files_all_regions()</span></code></a></li>
 <li class="toctree-l4"><a class="reference internal" href="#a2ihelper.editing.merge_files_one_region"><code class="docutils literal notranslate"><span class="pre">merge_files_one_region()</span></code></a></li>
 <li class="toctree-l4"><a class="reference internal" href="#a2ihelper.editing.odds_r"><code class="docutils literal notranslate"><span class="pre">odds_r()</span></code></a></li>
 <li class="toctree-l4"><a class="reference internal" href="#a2ihelper.editing.pool_positions"><code class="docutils literal notranslate"><span class="pre">pool_positions()</span></code></a></li>
-<li class="toctree-l4"><a class="reference internal" href="#a2ihelper.editing.wilcox_test"><code class="docutils literal notranslate"><span class="pre">wilcox_test()</span></code></a></li>
 </ul>
 </li>
 <li class="toctree-l3"><a class="reference internal" href="#module-a2ihelper.feat_selection">a2ihelper.feat_selection module</a><ul>
@@ -481,6 +481,11 @@ Kruskal-Wallis with post-hoc test for more than two conditions.</p>
 </dd></dl>
 
 <dl class="py function">
+<dt class="sig sig-object py" id="a2ihelper.editing.mannwhitney_test">
+<span class="sig-prename descclassname"><span class="pre">a2ihelper.editing.</span></span><span class="sig-name descname"><span class="pre">mannwhitney_test</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">df</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">only_pvalue</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">bool</span></span><span class="w"> </span><span class="o"><span class="pre">=</span></span><span class="w"> </span><span class="default_value"><span class="pre">True</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">pvalue_filter_limit_wilcox</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">float</span></span><span class="w"> </span><span class="o"><span class="pre">=</span></span><span class="w"> </span><span class="default_value"><span class="pre">0.05</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">return_only_significant</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">bool</span></span><span class="w"> </span><span class="o"><span class="pre">=</span></span><span class="w"> </span><span class="default_value"><span class="pre">True</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#a2ihelper.editing.mannwhitney_test" title="Permalink to this definition"></a></dt>
+<dd></dd></dl>
+
+<dl class="py function">
 <dt class="sig sig-object py" id="a2ihelper.editing.merge_files_all_regions">
 <span class="sig-prename descclassname"><span class="pre">a2ihelper.editing.</span></span><span class="sig-name descname"><span class="pre">merge_files_all_regions</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">meta</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#a2ihelper.editing.merge_files_all_regions" title="Permalink to this definition"></a></dt>
 <dd><p>Merge all RES files for ALL regions (output of REDItools2) in three pandas DataFrames of frequency or count per position.
@@ -573,11 +578,6 @@ df_g: counts of G or C</p>
 </dd>
 </dl>
 </dd></dl>
-
-<dl class="py function">
-<dt class="sig sig-object py" id="a2ihelper.editing.wilcox_test">
-<span class="sig-prename descclassname"><span class="pre">a2ihelper.editing.</span></span><span class="sig-name descname"><span class="pre">wilcox_test</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">df</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">only_pvalue</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">bool</span></span><span class="w"> </span><span class="o"><span class="pre">=</span></span><span class="w"> </span><span class="default_value"><span class="pre">True</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">pvalue_filter_limit_wilcox</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">float</span></span><span class="w"> </span><span class="o"><span class="pre">=</span></span><span class="w"> </span><span class="default_value"><span class="pre">0.05</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">return_only_significant</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">bool</span></span><span class="w"> </span><span class="o"><span class="pre">=</span></span><span class="w"> </span><span class="default_value"><span class="pre">True</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#a2ihelper.editing.wilcox_test" title="Permalink to this definition"></a></dt>
-<dd></dd></dl>
 
 </section>
 <section id="module-a2ihelper.feat_selection">

@@ -48,6 +48,7 @@
               <p class="caption" role="heading"><span class="caption-text">Contents:</span></p>
 <ul class="current">
 <li class="toctree-l1 current"><a class="current reference internal" href="#">a2ihelper</a><ul>
+<li class="toctree-l2"><a class="reference internal" href="#requirements">Requirements</a></li>
 <li class="toctree-l2"><a class="reference internal" href="#installing">Installing</a></li>
 <li class="toctree-l2"><a class="reference internal" href="#quickstart">Quickstart</a></li>
 </ul>
@@ -81,13 +82,41 @@
              
   <section id="a2ihelper">
 <h1>a2ihelper<a class="headerlink" href="#a2ihelper" title="Permalink to this heading"></a></h1>
-<p><strong>a2ihelper</strong> is a Python library for downstream analysis of A-to-I editing. It is build under Python 3.10 to analyze statistics <a class="reference external" href="https://github.com/BioinfoUNIBA/REDItools2">REDItools2</a> output files.
+<p><strong>a2ihelper</strong> is a Python library for downstream analysis of A-to-I editing. It is build under Python 3.10.13 to analyze statistics <a class="reference external" href="https://github.com/BioinfoUNIBA/REDItools2">REDItools2</a> output files.
 It is possible to analyze frequency or proportional data. The principal statistics tests used in 68 papers are included in a2iHelperPy.</p>
+<section id="requirements">
+<h2>Requirements<a class="headerlink" href="#requirements" title="Permalink to this heading"></a></h2>
+<blockquote>
+<div><ul class="simple">
+<li><p>numpy (version &gt;= 1.26.4)</p></li>
+<li><p>pandas (version &gt;= 2.2.0)</p></li>
+<li><p>scipy (version &gt;= 1.12.0)</p></li>
+<li><p>scikit-posthocs (version &gt;= 0.9.0)</p></li>
+<li><p><strong>Optional plot:</strong></p>
+<ul>
+<li><p>matplotlib (version &gt;= 3.8.3)</p></li>
+<li><p>seaborn (version &gt;= 0.13.2)</p></li>
+</ul>
+</li>
+<li><p><strong>Optionals Editing detection:</strong></p>
+<ul>
+<li><p>reditools (version = 2.0)</p></li>
+<li><p>pysam (versoin &gt;= 0.22.0)</p></li>
+<li><p>sortedcontainers (version &gt;= 2.4.0)</p></li>
+<li><p>psutil (version &gt;= 5.9.8)</p></li>
+<li><p>netifaces (version &gt;= 0.11.0)</p></li>
+</ul>
+</li>
+</ul>
+</div></blockquote>
+</section>
 <section id="installing">
 <h2>Installing<a class="headerlink" href="#installing" title="Permalink to this heading"></a></h2>
+<p>We recommend use pip to install the package</p>
 <div class="highlight-bash notranslate"><div class="highlight"><pre><span></span>pip install a2ihelper
 </pre></div>
 </div>
+<p>But you can also use the git clone and install via setup.py</p>
 </section>
 <section id="quickstart">
 <h2>Quickstart<a class="headerlink" href="#quickstart" title="Permalink to this heading"></a></h2>
@@ -100,6 +129,7 @@ It is possible to analyze frequency or proportional data. The principal statisti
 </dd>
 </dl>
 <p><strong>Get coordinates from list of genes:</strong></p>
+<p>You need to inform a list of genes that you want to get the coordinates and the GTF annotated path file (Make sure to set <code class="docutils literal notranslate"><span class="pre">gzip_file=True</span></code> if the file is “gzipped”). It is important to use the same file used to mapping.</p>
 <div class="highlight-python notranslate"><div class="highlight"><pre><span></span><span class="n">genes</span> <span class="o">=</span> <span class="p">[</span><span class="s1">&#39;Notch1&#39;</span><span class="p">,</span><span class="s1">&#39;B2m&#39;</span><span class="p">,</span><span class="s1">&#39;Hdc&#39;</span><span class="p">,</span><span class="s1">&#39;Il1b&#39;</span><span class="p">]</span>
 
 <span class="n">path_ref_annotation</span><span class="o">=</span><span class="s1">&#39;~/../reference_files/gencode.annotation.gtf&#39;</span>
@@ -138,6 +168,54 @@ It is possible to analyze frequency or proportional data. The principal statisti
 </pre></div>
 </div>
 <p>The function <em>merge_files_all_regions()</em> returns three DataFrames and one list with the sequence of genes counts. First DataFrame is the frequency of editing, second is the Adenine counts and the third the Guanine (Inosine) counts.</p>
+<p><strong>Statistics for FREQUENCY</strong></p>
+<p><em>Mann-Whitney U test</em></p>
+<div class="highlight-python notranslate"><div class="highlight"><pre><span></span><span class="n">df_pv</span> <span class="o">=</span> <span class="n">a2i</span><span class="o">.</span><span class="n">editing</span><span class="o">.</span><span class="n">mannwhitney_test</span><span class="p">(</span><span class="n">df</span><span class="p">,</span>
+                                     <span class="n">only_pvalue</span><span class="o">=</span><span class="kc">True</span><span class="p">,</span>
+                                     <span class="n">pvalue_filter_limit</span><span class="o">=</span><span class="mf">0.05</span><span class="p">,</span>
+                                     <span class="n">fdr_correction</span><span class="o">=</span><span class="kc">True</span><span class="p">,</span>
+                                     <span class="n">fdr_filter_limit</span><span class="o">=</span><span class="mf">0.05</span><span class="p">,</span>
+                                     <span class="n">return_only_significant</span><span class="o">=</span><span class="kc">True</span><span class="p">)</span>
+</pre></div>
+</div>
+<p><em>ANOVA Tukey</em></p>
+<div class="highlight-python notranslate"><div class="highlight"><pre><span></span><span class="n">df_pv</span> <span class="o">=</span> <span class="n">a2i</span><span class="o">.</span><span class="n">editing</span><span class="o">.</span><span class="n">anova_tukey_test</span><span class="p">(</span><span class="n">df</span><span class="p">,</span>
+                                     <span class="n">only_pvalue</span><span class="o">=</span><span class="kc">True</span><span class="p">,</span>
+                                     <span class="n">pvalue_filter_limit_anova</span><span class="o">=</span><span class="mf">0.05</span><span class="p">,</span>
+                                     <span class="n">pvalue_filter_limit_tukey</span><span class="o">=</span><span class="mf">0.05</span><span class="p">,</span>
+                                     <span class="n">return_only_significant</span><span class="o">=</span><span class="kc">True</span><span class="p">)</span>
+</pre></div>
+</div>
+<p><em>Kruskal Dunn</em></p>
+<div class="highlight-python notranslate"><div class="highlight"><pre><span></span><span class="n">df_pv</span> <span class="o">=</span> <span class="n">a2i</span><span class="o">.</span><span class="n">editing</span><span class="o">.</span><span class="n">kruskal_dunn_test</span><span class="p">(</span><span class="n">df</span><span class="p">,</span>
+                                      <span class="n">only_pvalue</span><span class="o">=</span><span class="kc">True</span><span class="p">,</span>
+                                      <span class="n">pvalue_filter_limit_kruskal</span><span class="o">=</span><span class="mf">0.05</span><span class="p">,</span>
+                                      <span class="n">pvalue_filter_limit_dunn</span><span class="o">=</span><span class="mf">0.05</span><span class="p">,</span>
+                                      <span class="n">return_only_significant</span><span class="o">=</span><span class="kc">True</span><span class="p">)</span>
+</pre></div>
+</div>
+<p><strong>Statistics for PROPORTION</strong></p>
+<p><em>Pooling replicates</em></p>
+<p>May you need to pool the replicates to perform a chi-square or fisher tests. To do that you can use the <code class="docutils literal notranslate"><span class="pre">pool_positions()</span></code> to sum the coordinates by independecy G-test.</p>
+<div class="highlight-python notranslate"><div class="highlight"><pre><span></span><span class="n">a</span><span class="p">,</span> <span class="n">g</span> <span class="o">=</span> <span class="n">a2i</span><span class="o">.</span><span class="n">editing</span><span class="o">.</span><span class="n">pool_positions</span><span class="p">(</span><span class="n">df_a</span><span class="p">,</span>
+                                  <span class="n">df_g</span><span class="p">,</span>
+                                  <span class="n">pvalue_filter_limit</span><span class="o">=</span><span class="mf">0.05</span><span class="p">,</span>
+                                  <span class="n">gtest_filter_limit</span><span class="o">=</span><span class="mi">0</span><span class="p">,</span>
+                                  <span class="n">bh_correction</span><span class="o">=</span><span class="kc">False</span><span class="p">)</span>
+</pre></div>
+</div>
+<p><em>Chi-square test</em></p>
+<div class="highlight-python notranslate"><div class="highlight"><pre><span></span><span class="n">chi</span> <span class="o">=</span> <span class="n">a2i</span><span class="o">.</span><span class="n">editing</span><span class="o">.</span><span class="n">chi2_test</span><span class="p">(</span><span class="n">a</span><span class="p">,</span> <span class="n">g</span><span class="p">,</span>
+                            <span class="n">only_pvalue</span><span class="o">=</span><span class="kc">True</span><span class="p">,</span>
+                            <span class="n">pvalue_filter_limit</span><span class="o">=</span><span class="mf">0.05</span><span class="p">)</span>
+</pre></div>
+</div>
+<p><em>Fisher test</em></p>
+<div class="highlight-python notranslate"><div class="highlight"><pre><span></span><span class="n">fis</span> <span class="o">=</span> <span class="n">a2i</span><span class="o">.</span><span class="n">editing</span><span class="o">.</span><span class="n">fisher_test</span><span class="p">(</span><span class="n">a</span><span class="p">,</span> <span class="n">g</span><span class="p">,</span>
+                              <span class="n">only_pvalue</span><span class="o">=</span><span class="kc">True</span><span class="p">,</span>
+                              <span class="n">pvalue_filter_limit</span><span class="o">=</span><span class="mf">.05</span><span class="p">)</span>
+</pre></div>
+</div>
 </section>
 </section>
 
