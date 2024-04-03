@@ -3,13 +3,13 @@
 
 import itertools
 import warnings
-# import pandas as pd
-# import numpy as np
+import pandas as pd
+import numpy as np
 # from scipy.stats import chi2_contingency, fisher_exact, f_oneway, tukey_hsd, kruskal
 # from scipy.stats.contingency import odds_ratio
 # import scikit_posthocs as sp
 
-def merge_files_one_region(meta):
+def merge_files_one_region(meta, coverage_q30:int = 10):
     """
     Merge all RES files for the same and UNIQUE region (output of REDItools2) in three pandas DataFrames of frequency or count per position.
     The first DataFrame is the frequency of editing (A-G or T-C). The Second DataFrame is the count of A (or T) per position. And the last one is the count of G (or C) per postion.
@@ -22,6 +22,9 @@ def merge_files_one_region(meta):
             Second: Samples names
             Third: region (gene symbol)
             Fourth: conditions
+
+    coverage_q30: int
+        An integer to define the minimum of reads with quality higher than in each position
 
     Returns
     -------
@@ -38,6 +41,7 @@ def merge_files_one_region(meta):
     samples = []
     for file in FILES:
         df = pd.read_csv( file, sep = '\t' )
+        df['Position'] = df['Region'].str.replace('chr','') + '_' + df['Position'].astype(str)
         samples.append(meta[meta.iloc[:,0] == file].iloc[:,1].values[0])
         if df.empty:
             df_list_a.append( pd.DataFrame({'Position':[-1],
@@ -45,7 +49,7 @@ def merge_files_one_region(meta):
             df_list_g.append( pd.DataFrame({'Position':[-1],
                                             samples[-1]:[np.nan]}).set_index('Position') )
         else:
-            df = df[df['Coverage-q30']>=10]
+            df = df[df['Coverage-q30']>=coverage_q30]
             df = df[df.Reference.isin(['A','T'])]
             df = df[(df.AllSubs.str.contains('AG')) | (df.AllSubs.str.contains('TC'))]
             if df.empty:
@@ -80,7 +84,7 @@ def merge_files_one_region(meta):
         df_g = df_g.T.merge(meta.iloc[:,[1,2,3]].drop_duplicates().set_index(meta.columns[1]), left_index=True, right_index=True)
         return df, df_a, df_g
 
-def merge_files_all_regions(meta):
+def merge_files_all_regions(meta, coverage_q30:int = 10):
     """
     Merge all RES files for ALL regions (output of REDItools2) in three pandas DataFrames of frequency or count per position.
     The first DataFrame is the frequency of editing (A-G or T-C). The Second DataFrame is the count of A (or T) per position. And the last one is the count of G (or C) per postion.
@@ -93,6 +97,9 @@ def merge_files_all_regions(meta):
             Second: Samples names
             Third: regions (genes symbol)
             Fourth: conditions
+
+    coverage_q30: int
+        An integer to define the minimum of reads with quality higher than in each position
 
     Returns
     -------
@@ -111,7 +118,7 @@ def merge_files_all_regions(meta):
     for r in meta.iloc[:,2].unique():
         # print(r+'+ ', end=' ')
         try:
-            df, df_a, df_g = merge_files_one_region(meta[meta.iloc[:,2]==r])
+            df, df_a, df_g = merge_files_one_region(meta[meta.iloc[:,2]==r], coverage_q30=coverage_q30)
             # print(df+'- ', end=' ')
             df_list.append(df.iloc[:,:-2])
             df_a_list.append(df_a.iloc[:,:-2])
@@ -144,12 +151,78 @@ def merge_files_all_regions(meta):
     except:
         return pd.DataFrame(), pd.DataFrame(), pd.DataFrame(), region_list
 
-def filter_snps(df, vcf_file=''):
-    pass
+def call_snp_vep(coordinates:list = [], species:str = 'homo_sapiens', sub:str = 'G'):
+    """
+    Consult SNPs in VEP (ensembl tool).
+
+    Parameters
+    ----------
+    coordinates: list
+        List of strings to call VEP. The string must be a list of chr_coordinate (e.g: ['9_129401662', '1_6524705']).
+    species: str
+        String with the species that you are requesting. It is based on Ensembl names like homo_sapiens, mus_musculus, rattus_norvegicus, zebrafish. Other genomes can be searched here: https://rest.ensembl.org/documentation/info/species
+    sub: str
+        Substitution base, can be G (A>G) or C (T>C).
+
+    Returns
+    -------
+    list
+        List of chr_coordinate and respective rsID
+    """
+
+    if sub == 'G':
+        ref = 'A'
+    elif sub == 'C':
+        ref = 'T'
+    else:
+        raise Exception("*Base not allowed* -> Sorry, only G or C are allowed as value for 'sub' parameter.")
+    server = 'https://rest.ensembl.org'
+    aux = []
+    for coord in coordinates:
+        chr, crd = coord.split('_')
+        ext = '/vep/'+species+'/region/'+chr+':'+crd+"-"+crd+'/'+sub+'?'
+        r = requests.get(server+ext, headers={ "Content-Type" : "application/json"})
+        if r.ok:
+            decoded = r.json()
+            for d in decoded:
+                if 'colocated_variants' in d.keys():
+                    for d_ in d['colocated_variants']:
+                        if d_['allele_string'].startswith(ref):
+                            aux.append([chr+'_'+crd, d_['id']])
+    if not aux:
+        warnings.warn('*Returning empty list* -> Positions of genes were not found in the VEP annotation as SNP.')
+    return aux
+
+def filter_snps_vep(df, species:str = 'homo_sapiens', sub:str = 'G'):
+    """
+    Filter positions by consulting SNPs in VEP (ensembl tool).
+
+    Parameters
+    ----------
+    df: DataFrame
+        Frequency editing DataFrame of all samples analyzed. The DataFrame must be like merge_files output. The columns must be chr_coordinate (e.g: 9_129401662). The last two columns must be region and conditions.
+    species: str
+        String with the species that you are requesting. It is based on Ensembl names like homo_sapiens, mus_musculus, rattus_norvegicus, zebrafish. Other genomes can be searched here: https://rest.ensembl.org/documentation/info/species
+    sub: str
+        Substitution base, can be G (A>G) or C (T>C).
+
+    Returns
+    -------
+    df_1
+        DataFrame df without filtered positions
+
+    df_2
+        DataFrame with positions and rsID
+    """
+
+    aux = call_snp_vep(df.iloc[:,:-2].columns, species, sub)
+    aux = pd.DataFrame(aux, columns=['Position','rsID'])
+    return df.loc[:,~df.columns.isin(aux['Position'].values)], aux
 
 def filter_positions(df, nan_filter=True, nan_filter_limit=0,
                      zero_filter=True, zero_filter_limit=0,
-                     hundred_filter=True, hundred_filter_limit=0):
+                     hundred_filter=True, hundred_filter_limit=0,
+                     per_condition=False):
     """
     Filter positions limiting the quantity of samples with nan values, zero editing and 100% of editing across samples.
 
@@ -169,6 +242,8 @@ def filter_positions(df, nan_filter=True, nan_filter_limit=0,
         Must be True to filter quantity of 100% of editing values across samples in each contition
     hundred_filter_limit: int
         Number max of samples with 100% frequency in one position in each contition
+    per_condition: bool
+        Must be True to filter quantity by condition individually. And False to filter by all samples.
 
     Returns
     -------
@@ -179,22 +254,27 @@ def filter_positions(df, nan_filter=True, nan_filter_limit=0,
         # print('The input is an empty DataFrame. In this case the function returns the input')
         return df
     array_filter = df.iloc[:,range(df.shape[1]-1)].columns # minus 1 to exclude type column
-    for cond in df.iloc[:,-1].unique():
-        # nan filter
+
+    if per_condition:
+        for cond in df.iloc[:,-1].unique():
+            # nan filter
+            if nan_filter:
+                array_filter = array_filter[ np.where( df.loc[df.iloc[:,-1]==cond, array_filter ].isna().sum(axis=0)<=nan_filter_limit )[0]]
+            # zero filter
+            if zero_filter:
+                array_filter = array_filter[ np.where( (df.loc[df.iloc[:,-1]==cond, array_filter ]==0).sum(axis=0)<=zero_filter_limit )[0]]
+            # hundred filter
+            if hundred_filter:
+                array_filter = array_filter[ np.where( (df.loc[df.iloc[:,-1]==cond, array_filter ]==100).sum(axis=0)<=hundred_filter_limit )[0]]
+    else:
         if nan_filter:
-            array_filter = array_filter[ np.where( df.loc[df.iloc[:,-1]==cond, array_filter ].isna().sum(axis=0)<=nan_filter_limit )[0]]
+            array_filter = array_filter[ np.where( df.loc[:, array_filter ].isna().sum(axis=0)<=nan_filter_limit )[0]]
         # zero filter
         if zero_filter:
-            array_filter = array_filter[ np.where( (df.loc[df.iloc[:,-1]==cond, array_filter ]==0).sum(axis=0)<=zero_filter_limit )[0]]
+            array_filter = array_filter[ np.where( (df.loc[:, array_filter ]==0).sum(axis=0)<=zero_filter_limit )[0]]
         # hundred filter
         if hundred_filter:
-            array_filter = array_filter[ np.where( (df.loc[df.iloc[:,-1]==cond, array_filter ]==100).sum(axis=0)<=hundred_filter_limit )[0]]
-        # G-test filter power_divergence http://www.biostathandbook.com/repgtestgof.html
-        # if g_test_filter:
-        #     array_filter = array_filter[ np.where( (df.loc[df.iloc[:,-1]==cond, array_filter ]==100).sum(axis=0)<=hundred_filter_limit )[0]]
-
-    # var filter
-    # array_filter = array_filter[ np.where((df.loc[df.iloc[:,-1]==cond, array_filter ].var()>=.01))[0]]
+            array_filter = array_filter[ np.where( (df.loc[:, array_filter ]==100).sum(axis=0)<=hundred_filter_limit )[0]]
 
     array_filter = array_filter.tolist()
     array_filter.append( df.columns[-1] )
@@ -308,7 +388,7 @@ def pool_positions(df_a, df_g, pvalue_filter_limit=0.05, gtest_filter_limit=0, b
 
     return aux_a, aux_g
 
-def wilcox_test(df, only_pvalue:bool = True, pvalue_filter_limit_wilcox:float = 0.05, return_only_significant:bool = True):
+def mannwhitney_test(df, only_pvalue:bool = True, pvalue_filter_limit_wilcox:float = 0.05, return_only_significant:bool = True):
     pass
 
 def anova_tukey_test(df, only_pvalue:bool = True, pvalue_filter_limit_anova:float = 0.05, pvalue_filter_limit_tukey:float = 0.05, return_only_significant:bool = True):
