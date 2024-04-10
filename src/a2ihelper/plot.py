@@ -2,22 +2,27 @@ import matplotlib.pyplot as plt
 from matplotlib.patches import Ellipse
 import matplotlib.transforms as transforms
 from matplotlib.patches import Patch
+from mpl_toolkits.axes_grid1 import make_axes_locatable
+import matplotlib as mpl
 import seaborn as sns
 import numpy as np
 import pandas as pd
 # from adjustText import adjust_text
-from sklearn.decomposition import PCA
-from sklearn.manifold import TSNE
+# from statannotations.Annotator import Annotator
+# from sklearn.decomposition import PCA
+# from sklearn.manifold import TSNE
 
-def boxplot(df, positions_to_plot:list = None, ax=None, figsize:tuple = None):
+def boxplot(df, positions_to_plot:list = None, log_scale:bool = False,  ax=None, pvalue_list=None, figsize:tuple = None):
     if positions_to_plot == None:
         aux = df.drop(df.columns[-2], axis=1).melt(id_vars=df.columns[-1])
     else:
         if not isinstance(positions_to_plot, list):
             positions_to_plot = positions_to_plot.tolist()
         aux = df[positions_to_plot + [df.columns[-1]]].melt(id_vars=df.columns[-1])
+    if log_scale:
+        aux['value'] = np.log(aux.value)
     if ax == None:
-        if figsize:
+        if figsize == None:
             f, ax = plt.subplots()
         else:
             f, ax = plt.subplots(figsize=figsize)
@@ -26,37 +31,129 @@ def boxplot(df, positions_to_plot:list = None, ax=None, figsize:tuple = None):
     y = 'value'
     hue = df.columns[-1]
 
+    hue_order = aux[aux.columns[0]].unique()
+    order = aux.variable.unique()
+
     sns.boxplot(x=x, y=y, hue=hue, data=aux, ax=ax)
     ax.set_xlabel('Positions')
     ax.set_xticks(ax.get_xticks())
     ax.set_xticklabels(ax.get_xticklabels(), rotation=90)
-    ax.set_ylabel('Editing Frequencies')
+    if log_scale:
+        ax.set_ylabel('log(Editing Frequencies)')
+    else:
+        ax.set_ylabel('Editing Frequencies')
     ax.set_title(','.join(df.iloc[:,-2].unique()))
+
+    if isinstance(pvalue_list, list):
+        pairs = [tuple(itertools.product([p],hue_order)) for p in order]
+        annot = Annotator(ax, pairs=pairs, x=x, y=y, hue=hue, order=order, hue_order=hue_order, data=aux)
+        annot.configure(test=None, text_format='star', loc='inside', verbose=0)
+        annot.set_pvalues(pvalue_list)
+        ax, test_results = annot.annotate()
 
     return ax
 
-def manhattanplot(df_or, df_pv, p_value_line:float = None, ax=None, figsize:tuple = None):
+def manhattanplot(df_or, df_pv, p_value_line:float = None, chr_order:list = [], ax=None, figsize:tuple = None):
     aux_m = pd.concat([df_or,df_pv]).iloc[:,:-2].T.reset_index()
     aux_m['-log10(pvalue)'] = -np.log10(aux_m['pvalue'])
+    aux_m['index'] = aux_m['index'].astype(str)
+    aux_m['chr'] = aux_m['index'].str.split('_').str[0]
     if ax == None:
-        if figsize:
+        if figsize == None:
             f, ax = plt.subplots()
         else:
             f, ax = plt.subplots(figsize=figsize)
 
-    aux_m['index'] = aux_m['index'].astype(str)
-    x = 'index'
+    x = 'chr'
     y = '-log10(pvalue)'
     hue = 'odds_ratio'
+    order = None
+    if chr_order:
+        order = chr_order
 
-    sns.scatterplot(x=x, y=y, hue=hue, data=aux_m, ax=ax)
+    # sns.scatterplot(x=x, y=y, hue=hue, data=aux_m, ax=ax)
+    sns.stripplot(x=x, y=y, hue=hue, palette='viridis_r', data=aux_m, ax=ax)
+    ax.get_legend().remove()
+    ax.set_xlabel('Chromosomes')
+    ax.set_ylabel('-log10(pvalue)')
+    ax.set_title(','.join(df_or.iloc[:,-1].unique())+' ('+','.join(df_or.iloc[:,-2].unique())+')')
+    if p_value_line != None:
+        ax.axhline(-np.log10(p_value_line), ls='--', lw=.5, color='black')
+
+    cmap = mpl.cm.viridis_r
+    norm = mpl.colors.Normalize(vmin=aux_m.odds_ratio.min(), vmax=aux_m.odds_ratio.max())
+
+    divider = make_axes_locatable(ax)
+    cax = divider.append_axes("right", size=.15, pad=.01)
+    cbar = plt.colorbar(mpl.cm.ScalarMappable(norm=norm, cmap=cmap), ax=ax, label='Odds ratio', cax=cax)
+    cbar.outline.set_color(None)
+
+    return ax
+
+def entropy_plot(entr, n_top:int = 50, log_scale:bool = False, ax=None, figsize:tuple = None ):
+    aux = entr.melt(ignore_index=False).reset_index()
+    aux = aux[ aux.variable.isin(aux[aux['index']==aux['index'].unique()[0]].sort_values('value', ascending=False).variable.values[:n_top]) ]
+    order = aux[aux['index']==aux['index'].unique()[0]].sort_values('value', ascending=False).variable.values
+
+    if log_scale:
+        aux['value'] = np.log(aux.value)
+    if ax == None:
+        if figsize == None:
+            f, ax = plt.subplots()
+        else:
+            f, ax = plt.subplots(figsize=figsize)
+
+    x = 'variable'
+    y = 'value'
+    hue = 'index'
+
+    sns.barplot(x=x, y=y, hue=hue,order=order, data=aux, ax=ax)
     ax.set_xlabel('Positions')
     ax.set_xticks(ax.get_xticks())
     ax.set_xticklabels(ax.get_xticklabels(), rotation=90)
-    ax.set_ylabel('-log10(pvalue)')
-    ax.set_title(','.join(df_or.iloc[:,-1].unique())+' ('+','.join(df_or.iloc[:,-2].unique())+')')
-    if p_value_line:
-        ax.axhline(-np.log10(p_value_line), ls='--', lw=1, color='gray')
+    if log_scale:
+        ax.set_ylabel('log(Editing Frequencies)')
+    else:
+        ax.set_ylabel('Editing Frequencies')
+    ax.set_title(','.join(df.iloc[:,-2].unique()))
+
+    return ax
+
+def corr_pearson_plot(p_corr, log_scale:bool = False,  p_value_line:float = None, ax = None, figsize:tuple = None):
+    aux = p_corr.copy()
+    x = 'Positions'
+    y = 'pvalue'
+    hue = 'R'
+    if log_scale:
+        aux['-log10(pvalue)'] = -np.log10(aux.pvalue)
+        y = '-log10(pvalue)'
+    if ax == None:
+        if figsize == None:
+            f, ax = plt.subplots()
+        else:
+            f, ax = plt.subplots(figsize=figsize)
+
+    sns.scatterplot(x=x, y=y, hue=hue, data=aux, ax=ax)
+    ax.get_legend().remove()
+    ax.set_xlabel('Positions')
+    ax.set_xticks(ax.get_xticks())
+    ax.set_xticklabels(ax.get_xticklabels(), rotation=90)
+    if log_scale:
+        ax.set_ylabel('-log10(pvalue)')
+        if p_value_line != None:
+            ax.axhline(-np.log10(p_value_line), ls='--', lw=.5, color='black')
+    else:
+        ax.set_ylabel('pvalue')
+        if p_value_line != None:
+            ax.axhline(p_value_line, ls='--', lw=.5, color='black')
+    ax.set_title(','.join(df.iloc[:,-2].unique()))
+
+    cmap = mpl.cm.viridis_r
+    norm = mpl.colors.Normalize(vmin=aux.R.min(), vmax=aux.R.max())
+    divider = make_axes_locatable(ax)
+    cax = divider.append_axes("right", size=.15, pad=.01)
+    cbar = plt.colorbar(mpl.cm.ScalarMappable(norm=norm, cmap=cmap), ax=ax, label='R', cax=cax)
+    cbar.outline.set_color(None)
 
     return ax
 

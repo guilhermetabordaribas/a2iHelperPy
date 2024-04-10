@@ -544,6 +544,9 @@ def odds_r(df_a, df_g):
     odds_res[df_a.columns[-1]] = '_vs_'.join(df_a.iloc[:,-1].unique())
 
     return odds_res
+
+def entropy(df_a, df_b):
+    pass
 # def chi2_test(df_a, df_b):
 #     power_divergence(table) para todas posiçoes e tipos para avaliar a divergencia
     # return []

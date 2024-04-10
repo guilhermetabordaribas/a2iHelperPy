@@ -12,26 +12,18 @@ a2ihelper.call\_reditools2 module
    :undoc-members:
    :show-inheritance:
 
-a2ihelper.correction module
----------------------------
-
-.. automodule:: a2ihelper.correction
-   :members:
-   :undoc-members:
-   :show-inheritance:
-
-a2ihelper.editing module
+a2ihelper.filter module
 ------------------------
 
-.. automodule:: a2ihelper.editing
+.. automodule:: a2ihelper.filter
    :members:
    :undoc-members:
    :show-inheritance:
 
-a2ihelper.feat\_selection module
+a2ihelper.stats module
 --------------------------------
 
-.. automodule:: a2ihelper.feat_selection
+.. automodule:: a2ihelper.stats
    :members:
    :undoc-members:
    :show-inheritance:
@@ -40,14 +32,6 @@ a2ihelper.plot module
 ---------------------
 
 .. automodule:: a2ihelper.plot
-   :members:
-   :undoc-members:
-   :show-inheritance:
-
-a2ihelper.read module
----------------------
-
-.. automodule:: a2ihelper.read
    :members:
    :undoc-members:
    :show-inheritance:
