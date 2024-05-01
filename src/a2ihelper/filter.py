@@ -2,11 +2,12 @@
 # https://www.nature.com/articles/s41598-018-24298-y
 
 import warnings
+import requests
 import pandas as pd
 import numpy as np
-# from scipy.stats import chi2_contingency#, false_discovery_control
-# from scipy.stats.contingency import odds_ratio
-# import scikit_posthocs as sp
+from scipy.stats import chi2_contingency#, false_discovery_control
+from scipy.stats.contingency import odds_ratio
+import scikit_posthocs as sp
 
 def merge_files_one_region(meta, coverage_q30:int = 10):
     """
@@ -252,32 +253,72 @@ def filter_positions(df, nan_filter=True, nan_filter_limit=0,
     if df.iloc[:,:-2].empty:
         # print('The input is an empty DataFrame. In this case the function returns the input')
         return df
-    array_filter = df.iloc[:,range(df.shape[1]-1)].columns # minus 1 to exclude type column
+
 
     if per_condition:
+        array_filter = df.iloc[:,range(df.shape[1]-1)].columns # minus 1 to exclude diagnosis column
         for cond in df.iloc[:,-1].unique():
             # nan filter
             if nan_filter:
-                array_filter = array_filter[ np.where( df.loc[df.iloc[:,-1]==cond, array_filter ].isna().sum(axis=0)<=nan_filter_limit )[0]]
+                array_filter = array_filter[ np.where( (df.loc[df.iloc[:,-1]==cond, array_filter ].isna().sum(axis=0))<=nan_filter_limit )[0]]
             # zero filter
             if zero_filter:
-                array_filter = array_filter[ np.where( (df.loc[df.iloc[:,-1]==cond, array_filter ]==0).sum(axis=0)<=zero_filter_limit )[0]]
+                array_filter = array_filter[ np.where( ((df.loc[df.iloc[:,-1]==cond, array_filter ]==0).sum(axis=0))<=zero_filter_limit )[0]]
             # hundred filter
             if hundred_filter:
-                array_filter = array_filter[ np.where( (df.loc[df.iloc[:,-1]==cond, array_filter ]==100).sum(axis=0)<=hundred_filter_limit )[0]]
+                array_filter = array_filter[ np.where( ((df.loc[df.iloc[:,-1]==cond, array_filter ]==100).sum(axis=0))<=hundred_filter_limit )[0]]
+        array_filter = array_filter.tolist()
+        array_filter.append( df.columns[-1] )
+
     else:
+        array_filter = df.iloc[:,range(df.shape[1]-2)].columns # minus 2 to exclude region column and diagnosis
         if nan_filter:
-            array_filter = array_filter[ np.where( df.loc[:, array_filter ].isna().sum(axis=0)<=nan_filter_limit )[0]]
+            # array_filter = array_filter[ np.where( (df.loc[:, array_filter ].isna().sum(axis=0))<=nan_filter_limit )[0]]
+            aux = pd.DataFrame( df.loc[:, array_filter ].isna().sum(axis=0))
+            array_filter = aux[aux[0]<=nan_filter_limit].index
         # zero filter
         if zero_filter:
-            array_filter = array_filter[ np.where( (df.loc[:, array_filter ]==0).sum(axis=0)<=zero_filter_limit )[0]]
+            # array_filter = array_filter[ np.where( ((df.loc[:, array_filter ]==0).sum(axis=0))<=zero_filter_limit )[0]]
+            aux = pd.DataFrame( (df.loc[:, array_filter ]==0).sum(axis=0)).sort_values(0)
+            array_filter = aux[aux[0]<=zero_filter_limit].index
         # hundred filter
         if hundred_filter:
-            array_filter = array_filter[ np.where( (df.loc[:, array_filter ]==100).sum(axis=0)<=hundred_filter_limit )[0]]
+            # array_filter = array_filter[ np.where( ((df.loc[:, array_filter ]==100).sum(axis=0))<=hundred_filter_limit )[0]]
+            aux = pd.DataFrame( (df.loc[:, array_filter ]==100).sum(axis=0)).sort_values(0)
+            array_filter = aux[aux[0]<=zero_filter_limit].index
 
-    array_filter = array_filter.tolist()
-    array_filter.append( df.columns[-1] )
+        array_filter = array_filter.tolist()
+        array_filter.append( df.columns[-2] )
+        array_filter.append( df.columns[-1] )
     return df[array_filter]
+
+def replace_nan_by_zero(df, min_ratio_nan:float = 2/3):
+    """
+    Replace NaN values by zero  if the ratio of NaNs by total samples in one condition is greater than min_ratio_nan.
+
+    Parameters
+    ----------
+    meta: df
+        Frequency editing, Adenine or Guanine counts DataFrame of all samples analyzed. The DataFrame must be like merge_files output. The last two columns must be region and conditions.
+    min_ratio_nan: float
+        Must be a float representing the minimum ratio of NaN values of each condition that can be replaced by zero. Each column will be treated individually.
+
+    Returns
+    -------
+    df
+        DataFrame with NaNs values replaced by zeros
+    """
+
+    df_aux = df.copy()
+    conditions, qnt_cond = np.unique(df_aux.iloc[:,-1].values, return_counts=True)
+    cond_col = df_aux.columns[-1]
+    for cond, qnt in zip(conditions, qnt_cond):
+        aux = pd.DataFrame(df_aux[df_aux.diagnosis==cond].iloc[:,:-2].isna().sum()/qnt)
+        cols = aux[aux[0]>=(min_ratio_nan)].index
+        del(aux)
+        for c in cols:
+            df_aux.loc[df_aux[cond_col]==cond, c] = df_aux.loc[df_aux[cond_col]==cond, c].fillna(0)
+    return df_aux
 
 def independency_gtest(df_a, df_g, only_pvalue=True):
     """

@@ -5,9 +5,9 @@ import itertools
 import warnings
 import pandas as pd
 import numpy as np
-# from scipy.stats import chi2_contingency, fisher_exact, f_oneway, tukey_hsd, kruskal, mannwhitneyu, ttest_ind, entropy, pearsonr#, false_discovery_control
-# from scipy.stats.contingency import odds_ratio
-# import scikit_posthocs as sp
+from scipy.stats import chi2_contingency, fisher_exact, f_oneway, tukey_hsd, kruskal, mannwhitneyu, ttest_ind, entropy, pearsonr#, false_discovery_control
+from scipy.stats.contingency import odds_ratio
+import scikit_posthocs as sp
 
 def mannwhitney_test(df, only_pvalue:bool = True, pvalue_filter_limit_wilcox:float = 0.05, return_only_significant:bool = True):
     """

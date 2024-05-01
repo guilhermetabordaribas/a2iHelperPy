@@ -1,3 +1,4 @@
+import itertools
 import matplotlib.pyplot as plt
 from matplotlib.patches import Ellipse
 import matplotlib.transforms as transforms
@@ -7,8 +8,8 @@ import matplotlib as mpl
 import seaborn as sns
 import numpy as np
 import pandas as pd
-# from adjustText import adjust_text
-# from statannotations.Annotator import Annotator
+from adjustText import adjust_text
+from statannotations.Annotator import Annotator
 # from sklearn.decomposition import PCA
 # from sklearn.manifold import TSNE
 
@@ -20,7 +21,7 @@ def boxplot(df, positions_to_plot:list = None, log_scale:bool = False,  ax=None,
             positions_to_plot = positions_to_plot.tolist()
         aux = df[positions_to_plot + [df.columns[-1]]].melt(id_vars=df.columns[-1])
     if log_scale:
-        aux['value'] = np.log(aux.value)
+        aux['value'] = np.log(aux.value+1)
     if ax == None:
         if figsize == None:
             f, ax = plt.subplots()
@@ -71,8 +72,9 @@ def manhattanplot(df_or, df_pv, p_value_line:float = None, chr_order:list = [], 
     if chr_order:
         order = chr_order
 
+
     # sns.scatterplot(x=x, y=y, hue=hue, data=aux_m, ax=ax)
-    sns.stripplot(x=x, y=y, hue=hue, palette='viridis_r', data=aux_m, ax=ax)
+    sns.stripplot(x=x, y=y, hue=hue, order=order, palette='viridis_r', data=aux_m, ax=ax)
     ax.get_legend().remove()
     ax.set_xlabel('Chromosomes')
     ax.set_ylabel('-log10(pvalue)')
@@ -112,10 +114,10 @@ def entropy_plot(entr, n_top:int = 50, log_scale:bool = False, ax=None, figsize:
     ax.set_xticks(ax.get_xticks())
     ax.set_xticklabels(ax.get_xticklabels(), rotation=90)
     if log_scale:
-        ax.set_ylabel('log(Editing Frequencies)')
+        ax.set_ylabel('log(Entropy)')
     else:
-        ax.set_ylabel('Editing Frequencies')
-    ax.set_title(','.join(df.iloc[:,-2].unique()))
+        ax.set_ylabel('Entropy')
+    ax.set_title(','.join(entr.iloc[:,-2].unique()))
 
     return ax
 
