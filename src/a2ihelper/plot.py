@@ -13,7 +13,7 @@ from statannotations.Annotator import Annotator
 # from sklearn.decomposition import PCA
 # from sklearn.manifold import TSNE
 
-def boxplot(df, positions_to_plot:list = None, log_scale:bool = False,  ax=None, pvalue_list=None, figsize:tuple = None):
+def boxplot(df, positions_to_plot:list = None, log_scale:bool = False,  ax=None, pvalue_list=None, figsize:tuple = None, order:list=None, hue_order:list=None, palette:str = None):
     if positions_to_plot == None:
         aux = df.drop(df.columns[-2], axis=1).melt(id_vars=df.columns[-1])
     else:
@@ -32,10 +32,13 @@ def boxplot(df, positions_to_plot:list = None, log_scale:bool = False,  ax=None,
     y = 'value'
     hue = df.columns[-1]
 
-    hue_order = aux[aux.columns[0]].unique()
-    order = aux.variable.unique()
+    if not isinstance(order, list):
+        order = aux.variable.unique()
 
-    sns.boxplot(x=x, y=y, hue=hue, data=aux, ax=ax)
+    if not isinstance(order, list):
+        hue_order = aux[aux.columns[0]].unique()
+
+    sns.boxplot(x=x, y=y, hue=hue, order=order, hue_order=hue_order, palette=palette, data=aux, ax=ax)
     ax.set_xlabel('Positions')
     ax.set_xticks(ax.get_xticks())
     ax.set_xticklabels(ax.get_xticklabels(), rotation=90)
@@ -46,7 +49,7 @@ def boxplot(df, positions_to_plot:list = None, log_scale:bool = False,  ax=None,
     ax.set_title(','.join(df.iloc[:,-2].unique()))
 
     if isinstance(pvalue_list, list):
-        pairs = [tuple(itertools.product([p],hue_order)) for p in order]
+        pairs = [tuple(itertools.product([p], hue_order)) for p in order]
         annot = Annotator(ax, pairs=pairs, x=x, y=y, hue=hue, order=order, hue_order=hue_order, data=aux)
         annot.configure(test=None, text_format='star', loc='inside', verbose=0)
         annot.set_pvalues(pvalue_list)
@@ -92,7 +95,7 @@ def manhattanplot(df_or, df_pv, p_value_line:float = None, chr_order:list = [], 
 
     return ax
 
-def entropy_plot(entr, n_top:int = 50, log_scale:bool = False, ax=None, figsize:tuple = None ):
+def entropy_plot(entr, n_top:int = 50, log_scale:bool = False, ax=None, figsize:tuple = None, order:list=None, hue_order:list=None, palette:str = None ):
     aux = entr.melt(ignore_index=False).reset_index()
     aux = aux[ aux.variable.isin(aux[aux['index']==aux['index'].unique()[0]].sort_values('value', ascending=False).variable.values[:n_top]) ]
     order = aux[aux['index']==aux['index'].unique()[0]].sort_values('value', ascending=False).variable.values
@@ -109,7 +112,13 @@ def entropy_plot(entr, n_top:int = 50, log_scale:bool = False, ax=None, figsize:
     y = 'value'
     hue = 'index'
 
-    sns.barplot(x=x, y=y, hue=hue,order=order, data=aux, ax=ax)
+    if not isinstance(order, list):
+        order = aux.variable.unique()
+
+    if not isinstance(order, list):
+        hue_order = aux[aux.columns[0]].unique()
+
+    sns.barplot(x=x, y=y, hue=hue, order=order, hue_order=hue_order, palette=palette, data=aux, ax=ax)
     ax.set_xlabel('Positions')
     ax.set_xticks(ax.get_xticks())
     ax.set_xticklabels(ax.get_xticklabels(), rotation=90)
@@ -117,7 +126,7 @@ def entropy_plot(entr, n_top:int = 50, log_scale:bool = False, ax=None, figsize:
         ax.set_ylabel('log(Entropy)')
     else:
         ax.set_ylabel('Entropy')
-    ax.set_title(','.join(entr.iloc[:,-2].unique()))
+    # ax.set_title(','.join(entr.iloc[:,-2].unique()))
 
     return ax
 
@@ -148,7 +157,7 @@ def corr_pearson_plot(p_corr, log_scale:bool = False,  p_value_line:float = None
         ax.set_ylabel('pvalue')
         if p_value_line != None:
             ax.axhline(p_value_line, ls='--', lw=.5, color='black')
-    ax.set_title(','.join(df.iloc[:,-2].unique()))
+    # ax.set_title(','.join(df.iloc[:,-2].unique()))
 
     cmap = mpl.cm.viridis_r
     norm = mpl.colors.Normalize(vmin=aux.R.min(), vmax=aux.R.max())

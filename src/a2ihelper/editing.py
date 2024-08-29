@@ -5,9 +5,9 @@ import itertools
 import warnings
 import pandas as pd
 import numpy as np
-# from scipy.stats import chi2_contingency, fisher_exact, f_oneway, tukey_hsd, kruskal
-# from scipy.stats.contingency import odds_ratio
-# import scikit_posthocs as sp
+from scipy.stats import chi2_contingency, fisher_exact, f_oneway, tukey_hsd, kruskal
+from scipy.stats.contingency import odds_ratio
+import scikit_posthocs as sp
 
 def merge_files_one_region(meta, coverage_q30:int = 10):
     """
