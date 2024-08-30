@@ -35,7 +35,7 @@ def boxplot(df, positions_to_plot:list = None, log_scale:bool = False,  ax=None,
     if not isinstance(order, list):
         order = aux.variable.unique()
 
-    if not isinstance(order, list):
+    if not isinstance(hue_order, list):
         hue_order = aux[aux.columns[0]].unique()
 
     sns.boxplot(x=x, y=y, hue=hue, order=order, hue_order=hue_order, palette=palette, data=aux, ax=ax)
@@ -115,7 +115,7 @@ def entropy_plot(entr, n_top:int = 50, log_scale:bool = False, ax=None, figsize:
     if not isinstance(order, list):
         order = aux.variable.unique()
 
-    if not isinstance(order, list):
+    if not isinstance(hue_order, list):
         hue_order = aux[aux.columns[0]].unique()
 
     sns.barplot(x=x, y=y, hue=hue, order=order, hue_order=hue_order, palette=palette, data=aux, ax=ax)

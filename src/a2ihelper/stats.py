@@ -9,7 +9,7 @@ from scipy.stats import chi2_contingency, fisher_exact, f_oneway, tukey_hsd, kru
 from scipy.stats.contingency import odds_ratio
 import scikit_posthocs as sp
 
-def mannwhitney_test(df, only_pvalue:bool = True, pvalue_filter_limit_wilcox:float = 0.05, return_only_significant:bool = True):
+def mannwhitney_test(df, only_pvalue:bool = True, pvalue_filter_limit:float = 0.05, return_only_significant:bool = True):
     """
     Perform the Mann-Whitney U rank test on two independent samples between two conditions.
 
@@ -17,6 +17,12 @@ def mannwhitney_test(df, only_pvalue:bool = True, pvalue_filter_limit_wilcox:flo
     ----------
     df: df
         pandas DataFrame of editing frequency. Rows are samples and columns are coordinates. The DataFrame must be like merge_files output. The last two columns must be region and conditions.
+    only_pvalue: bool
+        If True, it will return only the p-values. Otherwise it will return a tuple with statistic and pvalue.
+    pvalue_filter_limit: float
+        Limit of p-value to be considered statistically significant
+    return_only_significant: bool
+        If True, it will return only the p-values less than pvalue_filter_limit.
 
     Returns
     -------
@@ -61,7 +67,7 @@ def mannwhitney_test(df, only_pvalue:bool = True, pvalue_filter_limit_wilcox:flo
 
 
 
-def t_student_test(df, only_pvalue:bool = True, pvalue_filter_limit_ttest:float = 0.05, return_only_significant:bool = True):
+def t_student_test(df, only_pvalue:bool = True, pvalue_filter_limit:float = 0.05, return_only_significant:bool = True):
     """
     Perform the t Student test on two independent samples between two conditions.
 
@@ -69,6 +75,13 @@ def t_student_test(df, only_pvalue:bool = True, pvalue_filter_limit_ttest:float 
     ----------
     df: df
         pandas DataFrame of editing frequency. Rows are samples and columns are coordinates. The DataFrame must be like merge_files output. The last two columns must be region and conditions.
+    only_pvalue: bool
+        If True, it will return only the p-values. Otherwise it will return a tuple with statistic and pvalue.
+    pvalue_filter_limit: float
+        Limit of p-value to be considered statistically significant
+    return_only_significant: bool
+        If True, it will return only the p-values less than pvalue_filter_limit.
+
 
     Returns
     -------
@@ -120,6 +133,15 @@ def anova_tukey_test(df, only_pvalue:bool = True, pvalue_filter_limit_anova:floa
     ----------
     df: df
         pandas DataFrame of editing frequency. Rows are samples and columns are coordinates. The DataFrame must be like merge_files output. The last two columns must be region and conditions.
+    only_pvalue: bool
+        If True, it will return only the p-values. Otherwise it will return a tuple with statistic and pvalue.
+    pvalue_filter_limit_anova: float
+        Limit of ANOVA p-value to be considered statistically significant
+    pvalue_filter_limit_tukey: float
+        Limit of post-hoc p-value to be considered statistically significant.
+    return_only_significant: bool
+        If True, it will return only the p-values less than pvalue_filter_limit.
+
 
     Returns
     -------
@@ -175,7 +197,14 @@ def kruskal_dunn_test(df, only_pvalue:bool = True, pvalue_filter_limit_kruskal:f
     ----------
     df: df
         pandas DataFrame of editing frequency. Rows are samples and columns are coordinates. The DataFrame must be like merge_files output. The last two columns must be region and conditions.
-
+    only_pvalue: bool
+        If True, it will return only the p-values. Otherwise it will return a tuple with statistic and pvalue.
+    pvalue_filter_limit_kruskal: float
+        Limit of Kruskal-Wallis p-value to be considered statistically significant
+    pvalue_filter_limit_dunn: float
+        Limit of Dunn post-hoc p-value to be considered statistically significant.
+    return_only_significant: bool
+        If True, it will return only the p-values less than pvalue_filter_limit.
     Returns
     -------
     DataFrame
@@ -213,7 +242,27 @@ def kruskal_dunn_test(df, only_pvalue:bool = True, pvalue_filter_limit_kruskal:f
     df_pv = pd.DataFrame([index_comb,pos,res], index=['tests','coord','pvalue']).T.pivot(index='tests',columns='coord', values='pvalue')
     return df_pv
 
-def chi2_test(df_a, df_g, only_pvalue=True, return_only_significant=True, pvalue_filter_limit=0.05):
+def chi2_test(df_a, df_g, only_pvalue:bool = True, pvalue_filter_limit:float = 0.05, return_only_significant:bool = True):
+    """
+    Chi-square test for two or more than two conditions.
+
+    Parameters
+    ----------
+    df_a: df
+        pandas DataFrame of Adenine counts. Rows are samples and columns are coordinates. The DataFrame must be pooled before with a2iHelper.editing.pool_positions(). The last two columns must be region and conditions.
+    df_g: df
+        pandas DataFrame of Guanine counts. Rows are samples and columns are coordinates. The DataFrame must be pooled before with a2iHelper.editing.pool_positions(). The last two columns must be region and conditions.
+    only_pvalue: bool
+        If True, it will return only the p-values. Otherwise it will return a tuple with statistic and pvalue.
+    pvalue_filter_limit: float
+        Limit of Chi2 p-value to be considered statistically significant.
+    return_only_significant: bool
+        If True, it will return only the p-values less than pvalue_filter_limit.
+    Returns
+    -------
+    DataFrame
+        returns p-values for Chi2 test.
+    """
     aux_pv = []
     for c in df_a.columns[:-2]:
         if only_pvalue:
@@ -234,6 +283,26 @@ def chi2_test(df_a, df_g, only_pvalue=True, return_only_significant=True, pvalue
     return chi2_res
 
 def fisher_test(df_a, df_g, only_pvalue=True, return_only_significant=True, pvalue_filter_limit=0.05):
+    """
+    Fisher Excat test for two conditions.
+
+    Parameters
+    ----------
+    df_a: df
+        pandas DataFrame of Adenine counts. Rows are samples and columns are coordinates. The DataFrame must be pooled before with a2iHelper.editing.pool_positions(). The last two columns must be region and conditions.
+    df_g: df
+        pandas DataFrame of Guanine counts. Rows are samples and columns are coordinates. The DataFrame must be pooled before with a2iHelper.editing.pool_positions(). The last two columns must be region and conditions.
+    only_pvalue: bool
+        If True, it will return only the p-values. Otherwise it will return a tuple with statistic and pvalue.
+    pvalue_filter_limit: float
+        Limit of Fisher p-value to be considered statistically significant.
+    return_only_significant: bool
+        If True, it will return only the p-values less than pvalue_filter_limit.
+    Returns
+    -------
+    DataFrame
+        returns p-values for Fisher Exact test.
+    """
     aux_pv = []
     for c in df_a.columns[:-2]:
         if only_pvalue:
@@ -257,6 +326,21 @@ def fisher_test(df_a, df_g, only_pvalue=True, return_only_significant=True, pval
     return fisher_res
 
 def odds_r(df_a, df_g):
+    """
+    Compute the odds ratio for two conditions.
+
+    Parameters
+    ----------
+    df_a: df
+        pandas DataFrame of Adenine counts. Rows are samples and columns are coordinates. The DataFrame must be pooled before with a2iHelper.editing.pool_positions(). The last two columns must be region and conditions.
+    df_g: df
+        pandas DataFrame of Guanine counts. Rows are samples and columns are coordinates. The DataFrame must be pooled before with a2iHelper.editing.pool_positions(). The last two columns must be region and conditions.
+    
+    Returns
+    -------
+    DataFrame
+        returns odd ratio values.
+    """
     aux_or = []
     for c in df_a.columns[:-2]:
         aux_or.append(odds_ratio([df_a[c].astype(int).values, df_g[c].astype(int).values], kind='conditional').statistic)
@@ -268,6 +352,21 @@ def odds_r(df_a, df_g):
     return odds_res
 
 def entropy_calculation(df_a, df_g):
+    """
+    Calculate the Shannon entropy between Adenine and Guanine presence in each condition.
+
+    Parameters
+    ----------
+    df_a: df
+        pandas DataFrame of Adenine counts. Rows are samples and columns are coordinates. The DataFrame must be pooled before with a2iHelper.editing.pool_positions(). The last two columns must be region and conditions.
+    df_g: df
+        pandas DataFrame of Guanine counts. Rows are samples and columns are coordinates. The DataFrame must be pooled before with a2iHelper.editing.pool_positions(). The last two columns must be region and conditions.
+    
+    Returns
+    -------
+    DataFrame
+        returns odd ratio values.
+    """
     a = df_a.copy()
     g = df_g.copy()
     condition_name = a.columns[-1]
@@ -288,7 +387,24 @@ def entropy_calculation(df_a, df_g):
     aux.columns = cols
     return aux
 
-def conditon_pearson_corr(df, return_only_significant:bool = True, pvalue_filter_limit:float = 0.05):
+def conditon_pearson_corr(df, pvalue_filter_limit:float = 0.05, return_only_significant:bool = True):
+    """
+    Calculate the R Pearson correlation of editing frequencies in each condition.
+
+    Parameters
+    ----------
+    df: df
+        pandas DataFrame of editing frequency. Rows are samples and columns are coordinates. The DataFrame must be like merge_files output. The last two columns must be region and conditions.
+    pvalue_filter_limit: float
+        Limit of R Pearson p-value to be considered statistically significant.
+    return_only_significant: bool
+        If True, it will return only the p-values less than pvalue_filter_limit.
+
+    Returns
+    -------
+    DataFrame
+        returns a DataFrame of R and p-values.
+    """
     aux = df.copy()
 
     condition_name = aux.columns[-1]
@@ -308,7 +424,26 @@ def conditon_pearson_corr(df, return_only_significant:bool = True, pvalue_filter
 
     return aux
 
-def gene_pearson_corr(df, exprs:list, return_only_significant:bool = True, pvalue_filter_limit:float = 0.05):
+def gene_pearson_corr(df, exprs:list, pvalue_filter_limit:float = 0.05, return_only_significant:bool = True):
+    """
+    Calculate the R Pearson correlation of editing frequencies and expression of a specific gene.
+
+    Parameters
+    ----------
+    df: df
+        pandas DataFrame of editing frequency. Rows are samples and columns are coordinates. The DataFrame must be like merge_files output. The last two columns must be region and conditions.
+    exprs: list
+        List of gene expression values of gene of interest. in the same sample order of df.
+    pvalue_filter_limit: float
+        Limit of R Pearson p-value to be considered statistically significant.
+    return_only_significant: bool
+        If True, it will return only the p-values less than pvalue_filter_limit.
+
+    Returns
+    -------
+    DataFrame
+        returns a DataFrame of R and p-values.
+    """
     aux = df.copy()
 
     P_list = []
