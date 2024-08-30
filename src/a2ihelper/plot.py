@@ -10,8 +10,8 @@ import numpy as np
 import pandas as pd
 from adjustText import adjust_text
 from statannotations.Annotator import Annotator
-# from sklearn.decomposition import PCA
-# from sklearn.manifold import TSNE
+from sklearn.decomposition import PCA
+from sklearn.manifold import TSNE
 
 def boxplot(df, positions_to_plot:list = None, log_scale:bool = False,  ax=None, pvalue_list=None, figsize:tuple = None, order:list=None, hue_order:list=None, palette:str = None):
     if positions_to_plot == None:
@@ -289,6 +289,7 @@ def tsne(data, condition, hue=False, ax=None, figsize=None, conf_ellipse=False):
 
 def confidence_ellipse(x, y, ax, n_std=3.0, facecolor='none', **kwargs):
     """
+    **This function is borrow from https://matplotlib.org/stable/gallery/statistics/confidence_ellipse.html**
     Create a plot of the covariance confidence ellipse of *x* and *y*.
 
     Parameters

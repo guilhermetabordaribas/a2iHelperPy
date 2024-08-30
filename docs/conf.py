@@ -17,15 +17,18 @@ release = '0.0.1'
 # -- General configuration ---------------------------------------------------
 # https://www.sphinx-doc.org/en/master/usage/configuration.html#general-configuration
 
-extensions = ['numpydoc']#,'sphinx.ext.todo','sphinx.ext.viewcode','sphinx.ext.autodoc']#
+extensions = ['sphinx.ext.autodoc', 'sphinx.ext.coverage', 'sphinx.ext.napoleon']#'numpydoc']#,'sphinx.ext.todo','sphinx.ext.viewcode','sphinx.ext.autodoc']#
 
 templates_path = ['_templates']
 exclude_patterns = ['_build', 'Thumbs.db', '.DS_Store']
+autodoc_mock_imports = ['sknetwork','umap','false_discovery_control','scipy.stats','hdbscan','pygad',
+'boruta','statannotations','adjustText',
+'pandas','anndata','sklearn','scipy','matplotlib','seaborn','numpy']
 
 
 
 # -- Options for HTML output -------------------------------------------------
 # https://www.sphinx-doc.org/en/master/usage/configuration.html#options-for-html-output
 
-html_theme = 'sphinx_rtd_theme'#'alabaster'
+html_theme = 'alabaster'#'sphinx_rtd_theme'#
 html_static_path = ['_static']
