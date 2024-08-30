@@ -311,19 +311,15 @@ def conditon_pearson_corr(df, return_only_significant:bool = True, pvalue_filter
 def gene_pearson_corr(df, exprs:list, return_only_significant:bool = True, pvalue_filter_limit:float = 0.05):
     aux = df.copy()
 
-    condition_name = aux.columns[-1]
-    conditions = aux[condition_name].unique()
     P_list = []
     pv_list = []
 
     for col in aux.columns[:-2]:
-        P_list.append(pearsonr(aux[aux[condition_name]==conditions[0]][col], aux[aux[condition_name]==conditions[1]][col]).statistic)
-        pv_list.append(pearsonr(aux[aux[condition_name]==conditions[0]][col], aux[aux[condition_name]==conditions[1]][col]).pvalue)
+        P_list.append(pearsonr(aux[col].values, exprs).statistic)
+        pv_list.append(pearsonr(aux[col].values, exprs).pvalue)
     aux = pd.DataFrame([P_list,pv_list], columns=aux.columns[:-2], index=['R','pvalue']).T.reset_index()
 
     if return_only_significant:
         aux = aux[aux.pvalue <= pvalue_filter_limit]
-
     aux.columns = ['Positions', 'R', 'pvalue']
-
     return aux
