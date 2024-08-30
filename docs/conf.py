@@ -22,8 +22,8 @@ extensions = ['sphinx.ext.autodoc', 'sphinx.ext.coverage', 'sphinx.ext.napoleon'
 templates_path = ['_templates']
 exclude_patterns = ['_build', 'Thumbs.db', '.DS_Store']
 autodoc_mock_imports = ['sknetwork','umap','false_discovery_control','scipy.stats','hdbscan','pygad',
-'boruta','statannotations','adjustText',
-'pandas','anndata','sklearn','scipy','matplotlib','seaborn','numpy']
+'boruta','statannotations','adjustText','scikit_posthocs',
+'pandas','anndata','sklearn','scipy','matplotlib','mpl_toolkits','seaborn','numpy']
 
 
 
@@ -32,3 +32,4 @@ autodoc_mock_imports = ['sknetwork','umap','false_discovery_control','scipy.stat
 
 html_theme = 'alabaster'#'sphinx_rtd_theme'#
 html_static_path = ['_static']
+html_logo = "logo.png"
