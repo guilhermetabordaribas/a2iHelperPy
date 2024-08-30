@@ -144,7 +144,7 @@ def corr_pearson_plot(p_corr, log_scale:bool = False,  p_value_line:float = None
         else:
             f, ax = plt.subplots(figsize=figsize)
 
-    sns.scatterplot(x=x, y=y, hue=hue, data=aux, ax=ax)
+    sns.scatterplot(x=x, y=y, hue=hue, palette='viridis_r', data=aux, ax=ax)
     ax.get_legend().remove()
     ax.set_xlabel('Positions')
     ax.set_xticks(ax.get_xticks())
