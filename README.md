@@ -4,7 +4,7 @@ a2ihelper
 **a2ihelper** is a Python library for downstream analysis of A-to-I editing. It is build under Python 3.10 to analyze statistics [REDItools2](https://github.com/BioinfoUNIBA/REDItools2) output files.
 It is possible to analyze frequency or proportional data. The principal statistics tests used in 68 papers are included in a2iHelperPy.
 
-For more datiled info, visit the https://housekeepingminerpy.readthedocs.io
+For more datiled info, visit the https://a2ihelperpy.readthedocs.io/en/latest/
 
 Installing
 ----------
